@@ -1,25 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Name="MonoGame.Framework.Net" Path="MonoGame.Framework" Type="Library" Platforms="Android,iOS,Linux,MacOS,Ouya,PSMobile,Windows,Windows8,WindowsGL,WindowsPhone">
+<Project Name="MonoGame.Framework.Net" Path="MonoGame.Framework.Net" Type="Library" Platforms="Android,iOS,Linux,MacOS,Ouya,PSMobile,Windows,Windows8,WindowsGL,WindowsPhone">
 
   <!--
-    Using Protobuild in your own project?  ProjectGuids are only in use here
-    for backwards compatibility with existing users of MonoGame, and are not
-    required for new projects.
-
-    See https://github.com/hach-que/Protobuild/wiki/Project-GUIDs-in-Protobuild
+  This file has been substantially modified to work with the MonoGame fork managed by the Cocos2D-XNA Group.
+  All changes to this file are subject to the copyright of the Cocos2D-XNA Group and Totally Evil Entertainment, LLC.
+  Furthermore, the changes herein are subject to the license that governs the Cocos2D-XNA Group's software:
+  https://github.com/Cocos2DXNA/cocos2d-xna/blob/master/LicenseAndCredit.txt
+  (c) Cocos2D-XNA Group
+  (c) Totally Evil Entertainment, LLC
   -->
-  <ProjectGuids>
-	<Platform Name="Android">713EE5CA-C850-42AD-AC67-B6546AC8BFFB</Platform>
-	<Platform Name="iOS">D4838656-8545-4DC5-8822-D4AD313E17AC</Platform>
-	<Platform Name="Linux">1B738549-0449-4504-B978-7BFC347E3F3C</Platform>
-	<Platform Name="MacOS">1294038B-66C2-4359-AFE9-EA06A758CA94</Platform>
-	<Platform Name="Ouya">F200645B-20E1-4D6F-8C70-38656F633CFA</Platform>
-	<Platform Name="PSMobile">39DBE7E5-BB4E-4E99-A832-C576F13A593B</Platform>
-	<Platform Name="Windows">87A71215-7CAC-4B80-9D43-1700DECFB828</Platform>
-	<Platform Name="Windows8">A65B8326-1DDD-4E5D-8130-E74F70919E81</Platform>
-	<Platform Name="WindowsGL">6D6009F4-0AFB-4806-89D7-7945F20270F5</Platform>
-	<Platform Name="WindowsPhone">C6DA906E-9E4A-428B-8870-07A39B172F83</Platform>
-  </ProjectGuids>
+
+  <!--
+    This is a new framework library that does not need a GUID like the core MonoGame.Framework library.
+    -->
 
   <!-- Common assembly references -->
   <References>
@@ -63,264 +56,354 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     
     <!-- Microsoft.Xna.Framework.GamerServices -->
-    <Compile Include="GamerServices\AchievementCollection.cs">
+    <Compile Include="..\MonoGame.Framework\GamerServices\AchievementCollection.cs">
       <ExcludePlatforms>WindowsPhone</ExcludePlatforms> 
+      <Link>GamerServices\AchievementCollection.cs</Link>
     </Compile>
-    <Compile Include="GamerServices\Achievement.cs">
+    <Compile Include="..\MonoGame.Framework\GamerServices\Achievement.cs">
       <ExcludePlatforms>WindowsPhone</ExcludePlatforms> 
+      <Link>GamerServices\Achievement.cs</Link>
     </Compile>
-    <Compile Include="GamerServices\FriendCollection.cs">
+    <Compile Include="..\MonoGame.Framework\GamerServices\FriendCollection.cs">
       <ExcludePlatforms>WindowsPhone</ExcludePlatforms> 
+      <Link>GamerServices\FriendCollection.cs</Link>
     </Compile>
-    <Compile Include="GamerServices\FriendGamer.cs">
+    <Compile Include="..\MonoGame.Framework\GamerServices\FriendGamer.cs">
       <ExcludePlatforms>WindowsPhone</ExcludePlatforms> 
+      <Link>GamerServices\FriendGamer.cs</Link>
     </Compile>
-    <Compile Include="GamerServices\GamerCollection.cs">
+    <Compile Include="..\MonoGame.Framework\GamerServices\GamerCollection.cs">
       <ExcludePlatforms>WindowsPhone</ExcludePlatforms> 
+      <Link>GamerServices\GamerCollection.cs</Link>
     </Compile>
-    <Compile Include="GamerServices\Gamer.cs">
+    <Compile Include="..\MonoGame.Framework\GamerServices\Gamer.cs">
       <ExcludePlatforms>WindowsPhone</ExcludePlatforms> 
+      <Link>GamerServices\Gamer.cs</Link>
     </Compile>
-    <Compile Include="GamerServices\GamerDefaults.cs">
+    <Compile Include="..\MonoGame.Framework\GamerServices\GamerDefaults.cs">
       <ExcludePlatforms>WindowsPhone</ExcludePlatforms> 
+      <Link>GamerServices\GamerDefaults.cs</Link>
     </Compile>
-    <Compile Include="GamerServices\GamerPresence.cs">
+    <Compile Include="..\MonoGame.Framework\GamerServices\GamerPresence.cs">
       <ExcludePlatforms>WindowsPhone</ExcludePlatforms> 
+      <Link>GamerServices\GamerPresence.cs</Link>
     </Compile>
-    <Compile Include="GamerServices\GamerPresenceMode.cs">
+    <Compile Include="..\MonoGame.Framework\GamerServices\GamerPresenceMode.cs">
       <ExcludePlatforms>WindowsPhone</ExcludePlatforms> 
+      <Link>GamerServices\GamerPresenceMode.cs</Link>
     </Compile>
-    <Compile Include="GamerServices\GamerPrivileges.cs">
+    <Compile Include="..\MonoGame.Framework\GamerServices\GamerPrivileges.cs">
       <ExcludePlatforms>WindowsPhone</ExcludePlatforms> 
+      <Link>GamerServices\GamerPrivileges.cs</Link>
     </Compile>
-    <Compile Include="GamerServices\GamerPrivilegeSetting.cs">
+    <Compile Include="..\MonoGame.Framework\GamerServices\GamerPrivilegeSetting.cs">
       <ExcludePlatforms>WindowsPhone</ExcludePlatforms> 
+      <Link>GamerServices\GamerPrivilegeSetting.cs</Link>
     </Compile>
-    <Compile Include="GamerServices\GamerProfile.cs">
+    <Compile Include="..\MonoGame.Framework\GamerServices\GamerProfile.cs">
       <ExcludePlatforms>WindowsPhone</ExcludePlatforms> 
+      <Link>GamerServices\GamerProfile.cs</Link>
     </Compile>
-    <Compile Include="GamerServices\GamerZone.cs">
+    <Compile Include="..\MonoGame.Framework\GamerServices\GamerZone.cs">
       <ExcludePlatforms>WindowsPhone</ExcludePlatforms> 
+      <Link>GamerServices\GamerZone.cs</Link>
     </Compile>
-    <Compile Include="GamerServices\LeaderboardEntry.cs"/>
-    <Compile Include="GamerServices\LeaderboardIdentity.cs"/>
-    <Compile Include="GamerServices\LeaderboardKey.cs"/>
-    <Compile Include="GamerServices\LeaderboardReader.cs"/>
-    <Compile Include="GamerServices\LeaderboardWriter.cs"/>
-    <Compile Include="GamerServices\MessageBoxIcon.cs" />
-    <Compile Include="GamerServices\PropertyDictionary.cs"/>
-    <Compile Include="GamerServices\SignedInGamerCollection.cs">
+    <Compile Include="..\MonoGame.Framework\GamerServices\LeaderboardEntry.cs">
+      <Link>GamerServices\LeaderboardEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoGame.Framework\GamerServices\LeaderboardIdentity.cs">
+      <Link>GamerServices\LeaderboardIdentity.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoGame.Framework\GamerServices\LeaderboardKey.cs">
+      <Link>GamerServices\LeaderboardKey.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoGame.Framework\GamerServices\LeaderboardReader.cs">
+      <Link>GamerServices\LeaderboardReader.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoGame.Framework\GamerServices\LeaderboardWriter.cs">
+      <Link>GamerServices\LeaderboardWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoGame.Framework\GamerServices\MessageBoxIcon.cs">
+      <Link>GamerServices\MessageBoxIcon.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoGame.Framework\GamerServices\PropertyDictionary.cs">
+      <Link>GamerServices\PropertyDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\MonoGame.Framework\GamerServices\SignedInGamerCollection.cs">
       <ExcludePlatforms>WindowsPhone</ExcludePlatforms> 
+      <Link>GamerServices\SignedInGamerCollection.cs</Link>
     </Compile>
-    <Compile Include="GamerServices\GuideAlreadyVisibleException.cs">
+    <Compile Include="..\MonoGame.Framework\GamerServices\GuideAlreadyVisibleException.cs">
       <Platforms>MacOS,Windows,WindowsGL</Platforms>
+      <Link>GamerServices\GuideAlreadyVisibleException.cs</Link>
     </Compile>
-    <Compile Include="GamerServices\GamerServicesDispatcher.cs">
+    <Compile Include="..\MonoGame.Framework\GamerServices\GamerServicesDispatcher.cs">
       <Platforms>MacOS,Windows,WindowsGL</Platforms>
+      <Link>GamerServices\GamerServicesDispatcher.cs</Link>
     </Compile>
-    <Compile Include="GamerServices\GamerServicesComponent.cs">
+    <Compile Include="..\MonoGame.Framework\GamerServices\GamerServicesComponent.cs">
       <Platforms>Android,iOS,Linux,MacOS,Ouya,PSMobile,Windows,WindowsGL</Platforms>
+      <Link>GamerServices\GamerServicesComponent.cs</Link>
     </Compile>
  
 
  
     <!-- Microsoft.Xna.Framework.Net -->
-    <Compile Include="Net\AvailableNetworkSessionCollection.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+    <Compile Include="..\MonoGame.Framework\Net\AvailableNetworkSessionCollection.cs">
+      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms>
+	  <Link>Net\AvailableNetworkSessionCollection.cs</Link>
     </Compile>
-    <Compile Include="Net\AvailableNetworkSession.cs">
+    <Compile Include="..\MonoGame.Framework\Net\AvailableNetworkSession.cs">
       <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+	  <Link>Net\AvailableNetworkSession.cs</Link>
     </Compile>
-    <Compile Include="Net\CommandEvent.cs">
+    <Compile Include="..\MonoGame.Framework\Net\CommandEvent.cs">
       <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+	  <Link>Net\CommandEvent.cs</Link>
     </Compile>
-    <Compile Include="Net\CommandEventType.cs">
+    <Compile Include="..\MonoGame.Framework\Net\CommandEventType.cs">
       <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+	  <Link>Net\CommandEventType.cs</Link>
     </Compile>
-    <Compile Include="Net\CommandGamerJoined.cs">
+    <Compile Include="..\MonoGame.Framework\Net\CommandGamerJoined.cs">
       <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+	  <Link>Net\CommandGamerJoined.cs</Link>
     </Compile>
-    <Compile Include="Net\CommandGamerLeft.cs">
+    <Compile Include="..\MonoGame.Framework\Net\CommandGamerLeft.cs">
       <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+	  <Link>Net\CommandGamerLeft.cs</Link>
     </Compile>
-    <Compile Include="Net\CommandGamerStateChange.cs">
+    <Compile Include="..\MonoGame.Framework\Net\CommandGamerStateChange.cs">
       <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+	  <Link>Net\CommandGamerStateChange.cs</Link>
     </Compile>
-    <Compile Include="Net\CommandReceiveData.cs">
+    <Compile Include="..\MonoGame.Framework\Net\CommandReceiveData.cs">
       <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+	  <Link>Net\CommandReceiveData.cs</Link>
     </Compile>
-    <Compile Include="Net\CommandSendData.cs">
+    <Compile Include="..\MonoGame.Framework\Net\CommandSendData.cs">
       <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+	  <Link>Net\CommandSendData.cs</Link>
     </Compile>
-    <Compile Include="Net\CommandSessionStateChange.cs">
+    <Compile Include="..\MonoGame.Framework\Net\CommandSessionStateChange.cs">
       <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+	  <Link>Net\CommandSessionStateChange.cs</Link>
     </Compile>
-    <Compile Include="Net\GamerStates.cs">
+    <Compile Include="..\MonoGame.Framework\Net\GamerStates.cs">
       <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+	  <Link>Net\GamerStates.cs</Link>
     </Compile>
-    <Compile Include="Net\ICommand.cs">
+    <Compile Include="..\MonoGame.Framework\Net\ICommand.cs">
       <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+	  <Link>Net\ICommand.cs</Link>
     </Compile>
-    <Compile Include="Net\LocalNetworkGamer.cs">
+    <Compile Include="..\MonoGame.Framework\Net\LocalNetworkGamer.cs">
       <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+	  <Link>Net\LocalNetworkGamer.cs</Link>
     </Compile>
-    <Compile Include="Net\MonoGamerPeer.cs">
+    <Compile Include="..\MonoGame.Framework\Net\MonoGamerPeer.cs">
       <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+	  <Link>Net\MonoGamerPeer.cs</Link>
     </Compile>
-    <Compile Include="Net\NetworkException.cs">
+    <Compile Include="..\MonoGame.Framework\Net\NetworkException.cs">
       <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+	  <Link>Net\NetworkException.cs</Link>
     </Compile>
-    <Compile Include="Net\NetworkGamer.cs">
+    <Compile Include="..\MonoGame.Framework\Net\NetworkGamer.cs">
       <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+	  <Link>Net\NetworkGamer.cs</Link>
     </Compile>
-    <Compile Include="Net\NetworkMachine.cs">
+    <Compile Include="..\MonoGame.Framework\Net\NetworkMachine.cs">
       <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+	  <Link>Net\NetworkMachine.cs</Link>
     </Compile>
-    <Compile Include="Net\NetworkMessageType.cs">
+    <Compile Include="..\MonoGame.Framework\Net\NetworkMessageType.cs">
       <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+	  <Link>Net\NetworkMessageType.cs</Link>
     </Compile>
-    <Compile Include="Net\NetworkNotAvailableException.cs">
+    <Compile Include="..\MonoGame.Framework\Net\NetworkNotAvailableException.cs">
       <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+	  <Link>Net\NetworkNotAvailableException.cs</Link>
     </Compile>
-    <Compile Include="Net\NetworkSession.cs">
+    <Compile Include="..\MonoGame.Framework\Net\NetworkSession.cs">
       <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+	  <Link>Net\NetworkSession.cs</Link>
     </Compile>
-    <Compile Include="Net\NetworkSessionEndReason.cs">
+    <Compile Include="..\MonoGame.Framework\Net\NetworkSessionEndReason.cs">
       <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+	  <Link>Net\NetworkSessionEndReason.cs</Link>
     </Compile>
-    <Compile Include="Net\NetworkSessionJoinError.cs">
+    <Compile Include="..\MonoGame.Framework\Net\NetworkSessionJoinError.cs">
       <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+	  <Link>Net\NetworkSessionJoinError.cs</Link>
     </Compile>
-    <Compile Include="Net\NetworkSessionJoinException.cs">
+    <Compile Include="..\MonoGame.Framework\Net\NetworkSessionJoinException.cs">
       <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+	  <Link>Net\NetworkSessionJoinException.cs</Link>
     </Compile>
-    <Compile Include="Net\NetworkSessionProperties.cs">
+    <Compile Include="..\MonoGame.Framework\Net\NetworkSessionProperties.cs">
       <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+	  <Link>Net\NetworkSessionProperties.cs</Link>
     </Compile>
-    <Compile Include="Net\NetworkSessionState.cs">
+    <Compile Include="..\MonoGame.Framework\Net\NetworkSessionState.cs">
       <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+	  <Link>Net\NetworkSessionState.cs</Link>
     </Compile>
-    <Compile Include="Net\NetworkSessionType.cs">
+    <Compile Include="..\MonoGame.Framework\Net\NetworkSessionType.cs">
       <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+	  <Link>Net\NetworkSessionType.cs</Link>
     </Compile>
-    <Compile Include="Net\PacketReader.cs">
+    <Compile Include="..\MonoGame.Framework\Net\PacketReader.cs">
       <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+	  <Link>Net\PacketReader.cs</Link>
     </Compile>
-    <Compile Include="Net\PacketWriter.cs">
+    <Compile Include="..\MonoGame.Framework\Net\PacketWriter.cs">
       <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+	  <Link>Net\PacketWriter.cs</Link>
     </Compile>
-    <Compile Include="Net\QualityOfService.cs">
+    <Compile Include="..\MonoGame.Framework\Net\QualityOfService.cs">
       <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+	  <Link>Net\QualityOfService.cs</Link>
     </Compile>
-    <Compile Include="Net\SendDataOptions.cs">
+    <Compile Include="..\MonoGame.Framework\Net\SendDataOptions.cs">
       <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+	  <Link>Net\SendDataOptions.cs</Link>
     </Compile>
 
     <!-- Android/OUYA Platform -->
-    <Compile Include="Android\GamerServices\Guide.cs">
+    <Compile Include="..\MonoGame.Framework\Android\GamerServices\Guide.cs">
       <Platforms>Android,Ouya</Platforms>
+	  <Link>Android\GamerServices\Guide.cs</Link>
     </Compile>
-    <Compile Include="Android\GamerServices\MonoGameGamerServicesHelper.cs">
+    <Compile Include="..\MonoGame.Framework\Android\GamerServices\MonoGameGamerServicesHelper.cs">
       <Platforms>Android,Ouya</Platforms>
+	  <Link>Android\GamerServices\MonoGameGamerServicesHelper.cs</Link>
     </Compile>
-    <Compile Include="Android\GamerServices\SignedInGamer.cs">
+    <Compile Include="..\MonoGame.Framework\Android\GamerServices\SignedInGamer.cs">
       <Platforms>Android,Ouya</Platforms>
+	  <Link>Android\GamerServices\SignedInGamer.cs</Link>
     </Compile>
 
     <!-- iOS Platform -->
-    <Compile Include="iOS\GamerServices\Guide.cs">
+    <Compile Include="..\MonoGame.Framework\iOS\GamerServices\Guide.cs">
       <Platforms>iOS</Platforms>
+	  <Link>iOS\GamerServices\Guide.cs</Link>
     </Compile>
-    <Compile Include="iOS\GamerServices\KeyboardInputViewController.cs">
+    <Compile Include="..\MonoGame.Framework\iOS\GamerServices\KeyboardInputViewController.cs">
       <Platforms>iOS</Platforms>
+	  <Link>iOS\GamerServices\KeyboardInputViewController.cs</Link>
     </Compile>
-    <Compile Include="iOS\GamerServices\KeyboardInputView.cs">
+    <Compile Include="..\MonoGame.Framework\iOS\GamerServices\KeyboardInputView.cs">
       <Platforms>iOS</Platforms>
+	  <Link>iOS\GamerServices\KeyboardInputView.cs</Link>
     </Compile>
-    <Compile Include="iOS\GamerServices\SignedInGamer.cs">
+    <Compile Include="..\MonoGame.Framework\iOS\GamerServices\SignedInGamer.cs">
       <Platforms>iOS</Platforms>
+	  <Link>iOS\GamerServices\SignedInGamer.cs</Link>
     </Compile>
-    <Compile Include="iOS\GamerServices\TextFieldAlertView.cs">
+    <Compile Include="..\MonoGame.Framework\iOS\GamerServices\TextFieldAlertView.cs">
       <Platforms>iOS</Platforms>
+	  <Link>iOS\GamerServices\TextFieldAlertView.cs</Link>
     </Compile>
-    <Compile Include="iOS\Net\MonoGamePeerPickerControllerDelegate.cs">
+    <Compile Include="..\MonoGame.Framework\iOS\Net\MonoGamePeerPickerControllerDelegate.cs">
       <Platforms>iOS</Platforms>
+	  <Link>iOS\Net\MonoGamePeerPickerControllerDelegate.cs</Link>
     </Compile>
-    <Compile Include="iOS\Net\MonoGameSessionDelegate.cs">
+    <Compile Include="..\MonoGame.Framework\iOS\Net\MonoGameSessionDelegate.cs">
       <Platforms>iOS</Platforms>
+	  <Link>iOS\Net\MonoGameSessionDelegate.cs</Link>
     </Compile>
-    <Compile Include="GamerServices\NotificationPosition.cs">
+    <Compile Include="..\MonoGame.Framework\GamerServices\NotificationPosition.cs">
       <Platforms>iOS</Platforms>
+	  <Link>GamerServices\NotificationPosition.cs</Link>
     </Compile>
     
     <!-- Linux Platform -->
-    <Compile Include="Linux\GamerServices\Guide.cs">
+    <Compile Include="..\MonoGame.Framework\Linux\GamerServices\Guide.cs">
       <Platforms>Linux</Platforms>
+	  <Link>Linux\GamerServices\Guide.cs</Link>
     </Compile>
-    <Compile Include="Linux\GamerServices\MonoGameGamerServicesHelper.cs">
+    <Compile Include="..\MonoGame.Framework\Linux\GamerServices\MonoGameGamerServicesHelper.cs">
       <Platforms>Linux</Platforms>
+	  <Link>Linux\GamerServices\MonoGameGamerServicesHelper.cs</Link>
     </Compile>
-    <Compile Include="Linux\GamerServices\SignedInGamer.cs">
+    <Compile Include="..\MonoGame.Framework\Linux\GamerServices\SignedInGamer.cs">
       <Platforms>Linux</Platforms>
+	  <Link>Linux\GamerServices\SignedInGamer.cs</Link>
     </Compile>
 
 
     <!-- MacOS Platform -->
-    <Compile Include="MacOS\GamerServices\Guide.cs">
+    <Compile Include="..\MonoGame.Framework\MacOS\GamerServices\Guide.cs">
       <Platforms>MacOS</Platforms>
+	  <Link>MacOS\GamerServices\Guide.cs</Link>
     </Compile>
-    <Compile Include="MacOS\GamerServices\MonoGameGamerServicesHelper.cs">
+    <Compile Include="..\MonoGame.Framework\MacOS\GamerServices\MonoGameGamerServicesHelper.cs">
       <Platforms>MacOS</Platforms>
+	  <Link>MacOS\GamerServices\MonoGameGamerServicesHelper.cs</Link>
     </Compile>
-    <Compile Include="MacOS\GamerServices\MonoGameLocalGamerProfile.cs">
+    <Compile Include="..\MonoGame.Framework\MacOS\GamerServices\MonoGameLocalGamerProfile.cs">
       <Platforms>MacOS</Platforms>
+	  <Link>MacOS\GamerServices\MonoGameLocalGamerProfile.cs</Link>
     </Compile>
-    <Compile Include="MacOS\GamerServices\SignedInGamer.cs">
+    <Compile Include="..\MonoGame.Framework\MacOS\GamerServices\SignedInGamer.cs">
       <Platforms>MacOS</Platforms>
+	  <Link>MacOS\GamerServices\SignedInGamer.cs</Link>
     </Compile>
-    <Compile Include="MacOS\GamerServices\SigninController.cs">
+    <Compile Include="..\MonoGame.Framework\MacOS\GamerServices\SigninController.cs">
       <Platforms>MacOS</Platforms>
+	  <Link>MacOS\GamerServices\SigninController.cs</Link>
     </Compile>
 
 
     <!-- PlayStation Mobile Platform -->
-    <Compile Include="PSSuite\GamerServices\Guide.cs">
+    <Compile Include="..\MonoGame.Framework\PSSuite\GamerServices\Guide.cs">
       <Platforms>PSMobile</Platforms>
+	  <Link>PSSuite\GamerServices\Guide.cs</Link>
     </Compile>
-    <Compile Include="PSSuite\GamerServices\MonoGameGamerServicesHelper.cs">
+    <Compile Include="..\MonoGame.Framework\PSSuite\GamerServices\MonoGameGamerServicesHelper.cs">
       <Platforms>PSMobile</Platforms>
+	  <Link>PSSuite\GamerServices\MonoGameGamerServicesHelper.cs</Link>
     </Compile>
-    <Compile Include="PSSuite\GamerServices\SignedInGamer.cs">
+    <Compile Include="..\MonoGame.Framework\PSSuite\GamerServices\SignedInGamer.cs">
       <Platforms>PSMobile</Platforms>
+	  <Link>PSSuite\GamerServices\SignedInGamer.cs</Link>
     </Compile>
 
 
     <!-- Windows 8 Platform -->
-    <Compile Include="Windows8\GamerServices\SignedInGamer.cs">
+    <Compile Include="..\MonoGame.Framework\Windows8\GamerServices\SignedInGamer.cs">
       <Platforms>Windows8</Platforms>
+	  <Link>Windows8\GamerServices\SignedInGamer.cs</Link>
     </Compile>
-    <Compile Include="Windows8\GamerServices\EventAsync.cs">
+    <Compile Include="..\MonoGame.Framework\Windows8\GamerServices\EventAsync.cs">
       <Platforms>Windows8</Platforms>
+	  <Link>Windows8\GamerServices\EventAsync.cs</Link>
     </Compile>
-    <Compile Include="Windows8\GamerServices\InputDialog.cs">
+    <Compile Include="..\MonoGame.Framework\Windows8\GamerServices\InputDialog.cs">
       <Platforms>Windows8</Platforms>
+	  <Link>Windows8\GamerServices\InputDialog.cs</Link>
     </Compile>
-    <Page Include="Themes\generic.xaml">
+    <Page Include="..\MonoGame.Framework\Themes\generic.xaml">
         <Platforms>Windows8</Platforms>
         <Generator>MSBuild:Compile</Generator>
         <SubType>Designer</SubType>
+	  <Link>Themes\generic.xaml</Link>
     </Page>
 
 
     <!-- Windows Desktop Platform -->
-    <Compile Include="Windows\GamerServices\Guide.cs">
+    <Compile Include="..\MonoGame.Framework\Windows\GamerServices\Guide.cs">
       <Platforms>Windows8,Windows,WindowsGL,WindowsPhone</Platforms>
+	  <Link>Windows\GamerServices\Guide.cs</Link>
     </Compile>
-    <Compile Include="Windows\GamerServices\MonoGameGamerServicesHelper.cs">
+    <Compile Include="..\MonoGame.Framework\Windows\GamerServices\MonoGameGamerServicesHelper.cs">
       <Platforms>Windows,WindowsGL</Platforms>
+	  <Link>Windows\GamerServices\MonoGameGamerServicesHelper.cs</Link>
     </Compile>
-    <Compile Include="Windows\GamerServices\SignedInGamer.cs">
+    <Compile Include="..\MonoGame.Framework\Windows\GamerServices\SignedInGamer.cs">
       <Platforms>Windows,WindowsGL</Platforms>
+	  <Link>Windows\GamerServices\SignedInGamer.cs</Link>
     </Compile>
 
  
