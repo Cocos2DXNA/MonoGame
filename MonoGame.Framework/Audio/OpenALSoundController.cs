@@ -131,6 +131,7 @@ namespace Microsoft.Xna.Framework.Audio
                 int frequency = DEFAULT_FREQUENCY;
                 int updateSize = DEFAULT_UPDATE_SIZE;
                 int updateBuffers = DEFAULT_UPDATE_BUFFER_COUNT;
+#if API17PLUS
                 if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.JellyBeanMr1)
                 {
                     Android.Util.Log.Debug("OAL", Game.Activity.PackageManager.HasSystemFeature(PackageManager.FeatureAudioLowLatency) ? "Supports low latency audio playback." : "Does not support low latency audio playback.");
@@ -158,6 +159,9 @@ namespace Microsoft.Xna.Framework.Audio
                 {
                     Android.Util.Log.Debug("OAL", "Android 4.2 or higher required for low latency audio playback.");
                 }
+#else
+                Android.Util.Log.Debug("OAL", "Android 4.2 or higher required for low latency audio playback.");
+#endif
                 Android.Util.Log.Debug("OAL", "Using sample rate " + frequency + "Hz and " + updateBuffers + " buffers of " + updateSize + " frames.");
 
                 // These are missing and non-standard ALC constants
