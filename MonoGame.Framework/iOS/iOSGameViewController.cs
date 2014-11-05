@@ -19,7 +19,35 @@ namespace Microsoft.Xna.Framework
             if (platform == null)
                 throw new ArgumentNullException("platform");
             _platform = platform;
-            SupportedOrientations = DisplayOrientation.All;
+            SupportedOrientations = DisplayOrientation.Default;
+
+            NSArray obj = (NSArray)NSBundle.MainBundle.ObjectForInfoDictionary("UISupportedInterfaceOrientations");
+
+            for(int idx = 0; idx < obj.Count; ++idx)
+            {
+                string value = obj.GetItem<NSString>(idx).ToString();
+
+                switch(value)
+                {
+                // NOTE: in XNA, Orientation Left is a 90 degree rotation counterclockwise, while on iOS
+                // it is a 90 degree rotation CLOCKWISE. They are BACKWARDS!
+                case "UIInterfaceOrientationLandscapeLeft":
+                    SupportedOrientations |= DisplayOrientation.LandscapeRight;
+                    break;
+
+                case "UIInterfaceOrientationLandscapeRight":
+                    SupportedOrientations |= DisplayOrientation.LandscapeLeft;
+                    break;
+
+                case "UIInterfaceOrientationPortrait":
+                    SupportedOrientations |= DisplayOrientation.Portrait;
+                    break;
+
+                case "UIInterfaceOrientationPortraitUpsideDown":
+                    SupportedOrientations |= DisplayOrientation.PortraitDown;
+                    break;
+                }
+            }
         }
 
         public event EventHandler<EventArgs> InterfaceOrientationChanged;
@@ -75,7 +103,7 @@ namespace Microsoft.Xna.Framework
 
         public override bool ShouldAutorotate()
         {
-            return true;
+            return SupportedOrientations.HasFlag(DisplayOrientation.LandscapeLeft) || SupportedOrientations.HasFlag(DisplayOrientation.LandscapeRight) || _platform.Game.Initialized;
         }
         #endregion
 
