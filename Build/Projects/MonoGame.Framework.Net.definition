@@ -134,7 +134,7 @@
       <Link>GamerServices\SignedInGamerCollection.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\GamerServices\GuideAlreadyVisibleException.cs">
-      <Platforms>MacOS,Windows,WindowsGL</Platforms>
+      <Platforms>MacOS,Windows,WindowsGL,Android</Platforms>
       <Link>GamerServices\GuideAlreadyVisibleException.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\GamerServices\GamerServicesDispatcher.cs">
