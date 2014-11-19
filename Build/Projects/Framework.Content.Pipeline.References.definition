@@ -22,7 +22,6 @@
 
 
   <Platform Type="MacOS">
-    <Reference Include="MonoMac, Version=0.0.0.0, Culture=neutral" />
     <Binary
       Name="NAudio"
       Path="ThirdParty\Dependencies\NAudio\NAudio.dll" />
