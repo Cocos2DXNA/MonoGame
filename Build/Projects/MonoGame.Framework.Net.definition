@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Name="MonoGame.Framework.Net" Path="MonoGame.Framework.Net" Type="Library" Platforms="Android,iOS,Linux,MacOS,Ouya,PSMobile,Windows,Windows8,WindowsGL,WindowsPhone">
+<Project Name="MonoGame.Framework.Net" Path="MonoGame.Framework.Net" Type="Library" Platforms="Android,iOS,Linux,MacOS,Ouya,Windows,Windows8,WindowsGL,WindowsPhone">
 
   <!--
   This file has been substantially modified to work with the MonoGame fork managed by the Cocos2D-XNA Group.
