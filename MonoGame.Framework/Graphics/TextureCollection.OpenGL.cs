@@ -55,7 +55,7 @@ namespace Microsoft.Xna.Framework.Graphics
                     GraphicsExtensions.CheckGLError();
                 }
 
-                if (tex != null)
+                if (tex != null&& tex.glTexture != -1)
                 {
                     _targets[i] = tex.glTarget;
                     GL.BindTexture(tex.glTarget, tex.glTexture);
