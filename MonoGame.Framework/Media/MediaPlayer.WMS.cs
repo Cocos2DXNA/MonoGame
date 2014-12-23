@@ -135,27 +135,6 @@ namespace Microsoft.Xna.Framework.Media
             _session.SetTopology(SessionSetTopologyFlags.Immediate, song.Topology);
 
             _volumeController = CppObject.FromPointer<SimpleAudioVolume>(VideoPlayer.GetVolumeObj(_session));
-            // Get the volume interface.
-            IntPtr volumeObj;
-            int trycount = 0;
-           	tryagain:
-            
-            try
-            {
-                MediaFactory.GetService(_session, MRPolicyVolumeService, SimpleAudioVolumeGuid, out volumeObj);
-            }
-            catch
-            {
-            	if (trycount >= 5)
-            		MediaFactory.GetService(_session,MRPolicyVolumeService,SimpleAudioVolumeGuid, out volumeObj);
-            	else {
-            		trycount++;
-            		goto tryagain;
-            	}
-            }  
-          
-
-            _volumeController = CppObject.FromPointer<SimpleAudioVolume>(volumeObj);
             _volumeController.Mute = _isMuted;
             _volumeController.MasterVolume = _volume;
 
