@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Name="MonoGame.Framework.Net" Path="MonoGame.Framework.Net" Type="Library" Platforms="Android,iOS,Linux,MacOS,Ouya,Windows,Windows8,WindowsGL,WindowsPhone">
+<Project Name="MonoGame.Framework.Net" Path="MonoGame.Framework.Net" Type="Library" Platforms="Android,iOS,Linux,MacOS,Ouya,Windows,Windows8,WindowsGL,WindowsPhone,WindowsPhone81">
 
   <!--
   This file has been substantially modified to work with the MonoGame fork managed by the Cocos2D-XNA Group.
@@ -9,6 +9,19 @@
   (c) Cocos2D-XNA Group
   (c) Totally Evil Entertainment, LLC
   -->
+  <ProjectGuids>
+	<Platform Name="Android">713EE5CA-C850-42AD-AC67-B6546AC8BFFB</Platform>
+	<Platform Name="iOS">D4838656-8545-4DC5-8822-D4AD313E17AC</Platform>
+	<Platform Name="Linux">1B738549-0449-4504-B978-7BFC347E3F3C</Platform>
+	<Platform Name="MacOS">1294038B-66C2-4359-AFE9-EA06A758CA94</Platform>
+	<Platform Name="Ouya">F200645B-20E1-4D6F-8C70-38656F633CFA</Platform>
+	<Platform Name="PSMobile">39DBE7E5-BB4E-4E99-A832-C576F13A593B</Platform>
+	<Platform Name="Windows">87A71215-7CAC-4B80-9D43-1700DECFB828</Platform>
+	<Platform Name="Windows8">A65B8326-1DDD-4E5D-8130-E74F70919E81</Platform>
+	<Platform Name="WindowsGL">6D6009F4-0AFB-4806-89D7-7945F20270F5</Platform>
+	<Platform Name="WindowsPhone">C6DA906E-9E4A-428B-8870-07A39B172F83</Platform>
+    <Platform Name="WindowsPhone81">423e2b58-4fbb-4a5d-8a86-1188f2889523</Platform>
+  </ProjectGuids>
 
   <!--
     This is a new framework library that does not need a GUID like the core MonoGame.Framework library.
@@ -47,6 +60,7 @@
       <Platform Name="Windows8">TRACE;NETFX_CORE;WINRT;WINDOWS_STOREAPP;DIRECTX;DIRECTX11_1;WINDOWS_MEDIA_ENGINE;NET</Platform>
       <Platform Name="WindowsGL">TRACE;WINDOWS;OPENGL;OPENAL;NET</Platform>
       <Platform Name="WindowsPhone">TRACE;SILVERLIGHT;WINDOWS_PHONE;WINRT;DIRECTX;NET</Platform>
+      <Platform Name="WindowsPhone81">TRACE;WINRT;WINDOWS_PHONE81;DIRECTX;WINDOWS_STOREAPP</Platform>
     </CustomDefinitions>
 
   </Properties>
@@ -150,123 +164,123 @@
  
     <!-- Microsoft.Xna.Framework.Net -->
     <Compile Include="..\MonoGame.Framework\Net\AvailableNetworkSessionCollection.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms>
+      <ExcludePlatforms>WindowsPhone,Windows8,WindowsPhone81</ExcludePlatforms>
 	  <Link>Net\AvailableNetworkSessionCollection.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Net\AvailableNetworkSession.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+      <ExcludePlatforms>WindowsPhone,WindowsPhone81,Windows8</ExcludePlatforms> 
 	  <Link>Net\AvailableNetworkSession.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Net\CommandEvent.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+      <ExcludePlatforms>WindowsPhone,WindowsPhone81,Windows8</ExcludePlatforms> 
 	  <Link>Net\CommandEvent.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Net\CommandEventType.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+      <ExcludePlatforms>WindowsPhone,WindowsPhone81,Windows8</ExcludePlatforms> 
 	  <Link>Net\CommandEventType.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Net\CommandGamerJoined.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+      <ExcludePlatforms>WindowsPhone,WindowsPhone81,Windows8</ExcludePlatforms> 
 	  <Link>Net\CommandGamerJoined.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Net\CommandGamerLeft.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+      <ExcludePlatforms>WindowsPhone,WindowsPhone81,Windows8</ExcludePlatforms> 
 	  <Link>Net\CommandGamerLeft.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Net\CommandGamerStateChange.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+      <ExcludePlatforms>WindowsPhone,WindowsPhone81,Windows8</ExcludePlatforms> 
 	  <Link>Net\CommandGamerStateChange.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Net\CommandReceiveData.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+      <ExcludePlatforms>WindowsPhone,WindowsPhone81,Windows8</ExcludePlatforms> 
 	  <Link>Net\CommandReceiveData.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Net\CommandSendData.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+      <ExcludePlatforms>WindowsPhone,WindowsPhone81,Windows8</ExcludePlatforms> 
 	  <Link>Net\CommandSendData.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Net\CommandSessionStateChange.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+      <ExcludePlatforms>WindowsPhone,WindowsPhone81,Windows8</ExcludePlatforms> 
 	  <Link>Net\CommandSessionStateChange.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Net\GamerStates.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+      <ExcludePlatforms>WindowsPhone,WindowsPhone81,Windows8</ExcludePlatforms> 
 	  <Link>Net\GamerStates.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Net\ICommand.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+      <ExcludePlatforms>WindowsPhone,WindowsPhone81,Windows8</ExcludePlatforms> 
 	  <Link>Net\ICommand.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Net\LocalNetworkGamer.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+      <ExcludePlatforms>WindowsPhone,WindowsPhone81,Windows8</ExcludePlatforms> 
 	  <Link>Net\LocalNetworkGamer.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Net\MonoGamerPeer.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+      <ExcludePlatforms>WindowsPhone,WindowsPhone81,Windows8</ExcludePlatforms> 
 	  <Link>Net\MonoGamerPeer.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Net\NetworkException.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+      <ExcludePlatforms>WindowsPhone,WindowsPhone81,Windows8</ExcludePlatforms> 
 	  <Link>Net\NetworkException.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Net\NetworkGamer.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+      <ExcludePlatforms>WindowsPhone,WindowsPhone81,Windows8</ExcludePlatforms> 
 	  <Link>Net\NetworkGamer.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Net\NetworkMachine.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+      <ExcludePlatforms>WindowsPhone,WindowsPhone81,Windows8</ExcludePlatforms> 
 	  <Link>Net\NetworkMachine.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Net\NetworkMessageType.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+      <ExcludePlatforms>WindowsPhone,WindowsPhone81,Windows8</ExcludePlatforms> 
 	  <Link>Net\NetworkMessageType.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Net\NetworkNotAvailableException.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+      <ExcludePlatforms>WindowsPhone,WindowsPhone81,Windows8</ExcludePlatforms> 
 	  <Link>Net\NetworkNotAvailableException.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Net\NetworkSession.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+      <ExcludePlatforms>WindowsPhone,WindowsPhone81,Windows8</ExcludePlatforms> 
 	  <Link>Net\NetworkSession.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Net\NetworkSessionEndReason.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+      <ExcludePlatforms>WindowsPhone,WindowsPhone81,Windows8</ExcludePlatforms> 
 	  <Link>Net\NetworkSessionEndReason.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Net\NetworkSessionJoinError.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+      <ExcludePlatforms>WindowsPhone,WindowsPhone81,Windows8</ExcludePlatforms> 
 	  <Link>Net\NetworkSessionJoinError.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Net\NetworkSessionJoinException.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+      <ExcludePlatforms>WindowsPhone,WindowsPhone81,Windows8</ExcludePlatforms> 
 	  <Link>Net\NetworkSessionJoinException.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Net\NetworkSessionProperties.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+      <ExcludePlatforms>WindowsPhone,WindowsPhone81,Windows8</ExcludePlatforms> 
 	  <Link>Net\NetworkSessionProperties.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Net\NetworkSessionState.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+      <ExcludePlatforms>WindowsPhone,WindowsPhone81,Windows8</ExcludePlatforms> 
 	  <Link>Net\NetworkSessionState.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Net\NetworkSessionType.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+      <ExcludePlatforms>WindowsPhone,WindowsPhone81,Windows8</ExcludePlatforms> 
 	  <Link>Net\NetworkSessionType.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Net\PacketReader.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+      <ExcludePlatforms>WindowsPhone,WindowsPhone81,Windows8</ExcludePlatforms> 
 	  <Link>Net\PacketReader.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Net\PacketWriter.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+      <ExcludePlatforms>WindowsPhone,WindowsPhone81,Windows8</ExcludePlatforms> 
 	  <Link>Net\PacketWriter.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Net\QualityOfService.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+      <ExcludePlatforms>WindowsPhone,WindowsPhone81,Windows8</ExcludePlatforms> 
 	  <Link>Net\QualityOfService.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Net\SendDataOptions.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8</ExcludePlatforms> 
+      <ExcludePlatforms>WindowsPhone,WindowsPhone81,Windows8</ExcludePlatforms> 
 	  <Link>Net\SendDataOptions.cs</Link>
     </Compile>
 
@@ -373,19 +387,19 @@
 
     <!-- Windows 8 Platform -->
     <Compile Include="..\MonoGame.Framework\Windows8\GamerServices\SignedInGamer.cs">
-      <Platforms>Windows8</Platforms>
+      <Platforms>Windows8,WindowsPhone81</Platforms>
 	  <Link>Windows8\GamerServices\SignedInGamer.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Windows8\GamerServices\EventAsync.cs">
-      <Platforms>Windows8</Platforms>
+      <Platforms>Windows8,WindowsPhone81</Platforms>
 	  <Link>Windows8\GamerServices\EventAsync.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Windows8\GamerServices\InputDialog.cs">
-      <Platforms>Windows8</Platforms>
+      <Platforms>Windows8,WindowsPhone81</Platforms>
 	  <Link>Windows8\GamerServices\InputDialog.cs</Link>
     </Compile>
     <Page Include="..\MonoGame.Framework\Themes\generic.xaml">
-        <Platforms>Windows8</Platforms>
+        <Platforms>Windows8,WindowsPhone81</Platforms>
         <Generator>MSBuild:Compile</Generator>
         <SubType>Designer</SubType>
 	  <Link>Themes\generic.xaml</Link>
@@ -394,7 +408,7 @@
 
     <!-- Windows Desktop Platform -->
     <Compile Include="..\MonoGame.Framework\Windows\GamerServices\Guide.cs">
-      <Platforms>Windows8,Windows,WindowsGL,WindowsPhone</Platforms>
+      <Platforms>Windows8,Windows,WindowsGL,WindowsPhone,WindowsPhone81</Platforms>
 	  <Link>Windows\GamerServices\Guide.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Windows\GamerServices\MonoGameGamerServicesHelper.cs">
