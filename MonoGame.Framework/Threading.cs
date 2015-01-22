@@ -84,7 +84,7 @@ namespace Microsoft.Xna.Framework
 #if !WINDOWS_PHONE
         static Threading()
         {
-#if WINDOWS_STOREAPP
+#if WINDOWS_STOREAPP || NETFX_CORE
             mainThreadId = Environment.CurrentManagedThreadId;
 #else
             mainThreadId = Thread.CurrentThread.ManagedThreadId;
@@ -98,7 +98,9 @@ namespace Microsoft.Xna.Framework
         /// <returns>true if the code is currently running on the UI thread.</returns>
         public static bool IsOnUIThread()
         {
-#if WINDOWS_PHONE
+#if NETFX_CORE
+            return(Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.HasThreadAccess);
+#elif WINDOWS_PHONE
             return Deployment.Current.Dispatcher.CheckAccess();
 #elif WINDOWS_STOREAPP
             return (mainThreadId == Environment.CurrentManagedThreadId);
@@ -116,6 +118,30 @@ namespace Microsoft.Xna.Framework
             if (!IsOnUIThread())
                 throw new InvalidOperationException("Operation not called on UI thread.");
         }
+
+#if WINDOWS_STOREAPP
+        public static void RunOnUIThread(Action action)
+        {
+            RunOnContainerThread(Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher, action);
+        }
+        
+        public static void RunOnContainerThread(Windows.UI.Core.CoreDispatcher target, Action action)
+        {
+            target.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(action));
+        }
+
+        public static async void BlockOnContainerThread(Windows.UI.Core.CoreDispatcher target, Action action)
+        {
+            if (target.HasThreadAccess)
+            {
+                action();
+            }
+            else
+            {
+                await target.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(action));
+            }
+        }
+#endif
 
 #if WINDOWS_PHONE
         public static void RunOnUIThread(Action action)
@@ -178,6 +204,17 @@ namespace Microsoft.Xna.Framework
                     // Need to be on a different thread
                     BlockOnContainerThread(Deployment.Current.Dispatcher, action);
                 }
+#elif WINDOWS_STOREAPP
+                try
+                {
+                    action();
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    // Need to be on a different thread
+                    BlockOnContainerThread(Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher, action);
+                }
+
 #else
                 action();
 #endif
@@ -197,17 +234,20 @@ namespace Microsoft.Xna.Framework
                 GraphicsExtensions.CheckGLError();
             }
 #elif WINDOWS || LINUX || ANGLE
-            lock (BackgroundContext)
+            if (BackgroundContext != null)
             {
-                // Make the context current on this thread
-                BackgroundContext.MakeCurrent(WindowInfo);
-                // Execute the action
-                action();
-                // Must flush the GL calls so the texture is ready for the main context to use
-                GL.Flush();
-                GraphicsExtensions.CheckGLError();
-                // Must make the context not current on this thread or the next thread will get error 170 from the MakeCurrent call
-                BackgroundContext.MakeCurrent(null);
+                lock (BackgroundContext)
+                {
+                    // Make the context current on this thread
+                    BackgroundContext.MakeCurrent(WindowInfo);
+                    // Execute the action
+                    action();
+                    // Must flush the GL calls so the texture is ready for the main context to use
+                    GL.Flush();
+                    GraphicsExtensions.CheckGLError();
+                    // Must make the context not current on this thread or the next thread will get error 170 from the MakeCurrent call
+                    BackgroundContext.MakeCurrent(null);
+                }
             }
 #elif WINDOWS_PHONE
             BlockOnContainerThread(Deployment.Current.Dispatcher, action);
