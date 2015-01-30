@@ -9,7 +9,7 @@ namespace Microsoft.Xna.Framework.Graphics
 {
     public partial class IndexBuffer : GraphicsResource
     {
-        private bool _isDynamic;
+        private readonly bool _isDynamic;
 
         public BufferUsage BufferUsage { get; private set; }
         public int IndexCount { get; private set; }
@@ -24,7 +24,7 @@ namespace Microsoft.Xna.Framework.Graphics
         {
 			if (graphicsDevice == null)
             {
-                throw new ArgumentNullException("GraphicsDevice is null");
+                throw new ArgumentNullException("graphicsDevice");
             }
 			this.GraphicsDevice = graphicsDevice;
 			this.IndexElementSize = indexElementSize;	
@@ -68,7 +68,7 @@ namespace Microsoft.Xna.Framework.Graphics
         public void GetData<T>(int offsetInBytes, T[] data, int startIndex, int elementCount) where T : struct
         {
             if (data == null)
-                throw new ArgumentNullException("data is null");
+                throw new ArgumentNullException("data");
             if (data.Length < (startIndex + elementCount))
                 throw new InvalidOperationException("The array specified in the data parameter is not the correct size for the amount of data requested.");
             if (BufferUsage == BufferUsage.WriteOnly)
@@ -105,7 +105,7 @@ namespace Microsoft.Xna.Framework.Graphics
         protected void SetDataInternal<T>(int offsetInBytes, T[] data, int startIndex, int elementCount, SetDataOptions options) where T : struct
         {
             if (data == null)
-                throw new ArgumentNullException("data is null");
+                throw new ArgumentNullException("data");
             if (data.Length < (startIndex + elementCount))
                 throw new InvalidOperationException("The array specified in the data parameter is not the correct size for the amount of data requested.");
 
