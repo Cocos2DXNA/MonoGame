@@ -24,7 +24,7 @@ namespace Microsoft.Xna.Framework
 
             NSArray obj = (NSArray)NSBundle.MainBundle.ObjectForInfoDictionary("UISupportedInterfaceOrientations");
 
-            for(int idx = 0; idx < obj.Count; ++idx)
+            for(nuint idx = 0; idx < obj.Count; ++idx)
             {
                 string value = obj.GetItem<NSString>(idx).ToString();
 
