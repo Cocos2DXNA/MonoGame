@@ -798,7 +798,7 @@ namespace Microsoft.Xna.Framework.Graphics
                     throw new NotSupportedException("Texture format");
             }
 
-			GL.ReadPixels(0,0,Width, Height, All.Rgba, All.UnsignedByte, imageInfo);
+			GL.ReadPixels(0,0,Width, Height, GLPixelFormat.Rgba, PixelType.UnsignedByte, imageInfo);
             GraphicsExtensions.CheckGLError();
             GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferSlot.DepthAttachment, RenderbufferTarget.Renderbuffer, 0);
             GraphicsExtensions.CheckGLError();
