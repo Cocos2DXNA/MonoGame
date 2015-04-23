@@ -19,6 +19,8 @@ namespace Microsoft.Xna.Framework
         protected TimeSpan _inactiveSleepTime = TimeSpan.FromMilliseconds(20.0);
         protected bool _needsToResetElapsedTime = false;
         bool disposed;
+        protected bool _alreadyInFullScreenMode = false;
+        protected bool _alreadyInWindowedMode = false;
         protected bool IsDisposed { get { return disposed; } }
 
         #endregion
@@ -40,14 +42,16 @@ namespace Microsoft.Xna.Framework
             return new MonoGame.Framework.WinFormsGamePlatform(game);
 #elif WINDOWS_PHONE
             return new MonoGame.Framework.WindowsPhone.WindowsPhoneGamePlatform(game);
+#elif WINDOWS_UAP
+            return new UAPGamePlatform(game);
 #elif WINRT
             return new MetroGamePlatform(game);
 #elif WEB
             return new WebGamePlatform(game);
 #endif
-        }
+		}
 
-        protected GamePlatform(Game game)
+		protected GamePlatform(Game game)
         {
             if (game == null)
                 throw new ArgumentNullException("game");

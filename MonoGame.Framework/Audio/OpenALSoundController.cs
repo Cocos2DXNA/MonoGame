@@ -467,12 +467,15 @@ namespace Microsoft.Xna.Framework.Audio
                     }
                 }
             }
+            lock (purgeMe)
+            {
             foreach (var soundBuffer in purgeMe)
             {
                 AL.Source(soundBuffer.SourceId, ALSourcei.Buffer, 0);
                 RecycleSource(soundBuffer);
             }
             purgeMe.Clear();
+        }
         }
 
 #if ANDROID

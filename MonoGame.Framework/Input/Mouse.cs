@@ -136,7 +136,7 @@ namespace Microsoft.Xna.Framework.Input
             if (((OpenTKGameWindow)window).Window.Visible)
             {
                 var state = OpenTK.Input.Mouse.GetCursorState();
-                var pc = Window.PointToClient(new System.Drawing.Point(state.X, state.Y));
+            var pc = ((OpenTKGameWindow)window).Window.PointToClient(new System.Drawing.Point(state.X, state.Y));
                 window.MouseState.X = pc.X;
                 window.MouseState.Y = pc.Y;
 

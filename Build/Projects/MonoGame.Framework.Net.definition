@@ -405,7 +405,6 @@
 	  <Link>Themes\generic.xaml</Link>
     </Page>
 
-
     <!-- Windows Desktop Platform -->
     <Compile Include="..\MonoGame.Framework\Windows\GamerServices\Guide.cs">
       <Platforms>Windows8,Windows,WindowsGL,WindowsPhone,WindowsPhone81</Platforms>
