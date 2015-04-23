@@ -39,6 +39,7 @@
 #endregion License
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Microsoft.Xna.Framework.Graphics
@@ -46,6 +47,7 @@ namespace Microsoft.Xna.Framework.Graphics
     public abstract class GraphicsResource : IDisposable
     {
         bool disposed;
+        static object resourcesLock = new object();
 
         // Use WeakReference for the global resources list as we do not know when a resource
         // may be disposed and collected. We do not want to prevent a resource from being
@@ -61,8 +63,12 @@ namespace Microsoft.Xna.Framework.Graphics
 
         internal GraphicsResource()
         {
-            
+            lock (resourcesLock)
+            {
+                _selfReference = new WeakReference(this);
+                resources.Add(_selfReference);
             }
+        }
 
         ~GraphicsResource()
         {
@@ -147,6 +153,13 @@ namespace Microsoft.Xna.Framework.Graphics
                     Disposing(this, EventArgs.Empty);
 
                 // Remove from the global list of graphics resources
+
+                lock (resourcesLock)
+                {
+                    resources.Remove(_selfReference);
+                }
+
+                // Remove from the global list of graphics resources
                 if (graphicsDevice != null)
                     graphicsDevice.RemoveResourceReference(_selfReference);
 
@@ -176,6 +189,10 @@ namespace Microsoft.Xna.Framework.Graphics
                 // during their lifetime. But only one GraphicsDevice should retain ownership.
                 if (graphicsDevice != null)
                 {
+                    lock (resourcesLock)
+                    {
+                        resources.Remove(_selfReference);
+                    }
                     graphicsDevice.RemoveResourceReference(_selfReference);
                     _selfReference = null;
                 }
@@ -183,6 +200,10 @@ namespace Microsoft.Xna.Framework.Graphics
                 graphicsDevice = value;
 
                 _selfReference = new WeakReference(this);
+                lock (resourcesLock)
+                {
+                    resources.Add(_selfReference);
+                }
                 graphicsDevice.AddResourceReference(_selfReference);
             }
 		}

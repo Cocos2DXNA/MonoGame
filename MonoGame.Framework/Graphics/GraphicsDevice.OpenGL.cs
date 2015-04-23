@@ -579,7 +579,14 @@ namespace Microsoft.Xna.Framework.Graphics
                     this.framebufferHelper.DeleteRenderbuffer(depth);
 
                 var bindingsToDelete = new List<RenderTargetBinding[]>();
-                foreach (var bindings in this.glFramebuffers.Keys)
+                List<RenderTargetBinding[]> bindingsCopy = null;
+                lock (this.glFramebuffers)
+                {
+                    // The key copy will throw a concurrent modification exception if an activate occurs
+                    // while another RT is disposed.
+                    bindingsCopy = new List<RenderTargetBinding[]>(this.glFramebuffers.Keys);
+                }
+                foreach (var bindings in bindingsCopy)
                 {
                     foreach (var binding in bindings)
                     {
@@ -590,20 +597,43 @@ namespace Microsoft.Xna.Framework.Graphics
                         }
                     }
                 }
-
-                foreach (var bindings in bindingsToDelete)
+                // Clean up the FBO objects.
+                // Step 1 - clean up the management lists/dictionary
+                List<int> fboToDelete = new List<int>();
+                lock (this.glFramebuffers)
                 {
-                    var fbo = 0;
-                    if (this.glFramebuffers.TryGetValue(bindings, out fbo))
+                    // glFramebuffers can change during the dispose call, so lock it here.
+                    foreach (var bindings in bindingsToDelete)
                     {
-                        this.framebufferHelper.DeleteFramebuffer(fbo);
-                        this.glFramebuffers.Remove(bindings);
+                        int fbo = 0;
+                        if (this.glFramebuffers.TryGetValue(bindings, out fbo))
+                        {
+                            fboToDelete.Add(fbo);
+                            this.glFramebuffers.Remove(bindings);
+                        }
                     }
-                    if (this.glResolveFramebuffers.TryGetValue(bindings, out fbo))
+                }
+                lock (this.glResolveFramebuffers)
+                {
+                    foreach (var bindings in bindingsToDelete)
                     {
-                        this.framebufferHelper.DeleteFramebuffer(fbo);
-                        this.glResolveFramebuffers.Remove(bindings);
+                        int fbo = 0;
+                        if (this.glResolveFramebuffers.TryGetValue(bindings, out fbo))
+                        {
+                            if (!fboToDelete.Contains(fbo))
+                            {
+                                // Is this necessary? Don't know. The FBO id should not conflict, but just in case ...
+                                fboToDelete.Add(fbo);
+                            }
+                            this.glResolveFramebuffers.Remove(bindings);
+                        }
                     }
+                }
+                // Step 2 - Do the actual hardware dispose on the FBO. Do this outside of the list management because of the
+                // lock. This operation does not require a lock and it can have significant time complexity.
+                foreach (int fbo in fboToDelete)
+                {
+                    this.framebufferHelper.DeleteFramebuffer(fbo);
                 }
             }
         }
@@ -618,7 +648,19 @@ namespace Microsoft.Xna.Framework.Graphics
             if (renderTarget.MultiSampleCount > 0 && this.framebufferHelper.SupportsBlitFramebuffer)
             {
                 var glResolveFramebuffer = 0;
-                if (!this.glResolveFramebuffers.TryGetValue(this._currentRenderTargetBindings, out glResolveFramebuffer))
+                bool bFBONotFound = false;
+                // If the RT is not in the dictionary, then it needs to be added. Do this in a lock
+                // to prevent concurrent modification during dispose
+                lock (glResolveFramebuffers)
+                {
+                    if (!this.glResolveFramebuffers.TryGetValue(this._currentRenderTargetBindings, out glResolveFramebuffer))
+                    {
+                        bFBONotFound = true;
+                        this.glResolveFramebuffers.Add(this._currentRenderTargetBindings, glResolveFramebuffer);
+                    }
+                }
+                // Do the actual hardware resolution of the RT.
+                if (bFBONotFound)
                 {
                     this.framebufferHelper.GenFramebuffer(out glResolveFramebuffer);
                     this.framebufferHelper.BindFramebuffer(glResolveFramebuffer);
@@ -626,7 +668,6 @@ namespace Microsoft.Xna.Framework.Graphics
                     {
                         this.framebufferHelper.FramebufferTexture2D((int)(FramebufferAttachment.ColorAttachment0 + i), (int)renderTarget.glTarget, renderTarget.glTexture);
                     }
-                    this.glResolveFramebuffers.Add(this._currentRenderTargetBindings, glResolveFramebuffer);
                 }
                 else
                 {
@@ -635,7 +676,11 @@ namespace Microsoft.Xna.Framework.Graphics
                 // The only fragment operations which affect the resolve are the pixel ownership test, the scissor test, and dithering.
                 GL.Disable(EnableCap.ScissorTest);
                 GraphicsExtensions.CheckGLError();
-                var glFramebuffer = this.glFramebuffers[this._currentRenderTargetBindings];
+                int glFramebuffer = -1;
+                lock (glFramebuffers)
+                {
+                    glFramebuffer = this.glFramebuffers[this._currentRenderTargetBindings];
+                }
                 this.framebufferHelper.BindReadFramebuffer(glFramebuffer);
                 for (var i = 0; i < this._currentRenderTargetCount; ++i)
                 {
@@ -663,7 +708,16 @@ namespace Microsoft.Xna.Framework.Graphics
         private IRenderTarget PlatformApplyRenderTargets()
         {
             var glFramebuffer = 0;
+            bool bFBONotFound = false;
             if (!this.glFramebuffers.TryGetValue(this._currentRenderTargetBindings, out glFramebuffer))
+            {
+                bFBONotFound = true;
+                // Must lock access to glFramebuffers becuase the async dispose pattern will cause concurrent
+                // modification exceptions during the dispose process
+                //
+                this.glFramebuffers.Add((RenderTargetBinding[])_currentRenderTargetBindings.Clone(), glFramebuffer);
+            }
+            if(bFBONotFound) 
             {
                 this.framebufferHelper.GenFramebuffer(out glFramebuffer);
                 this.framebufferHelper.BindFramebuffer(glFramebuffer);
@@ -685,7 +739,6 @@ namespace Microsoft.Xna.Framework.Graphics
 #if DEBUG
                 this.framebufferHelper.CheckFramebufferStatus();
 #endif
-                this.glFramebuffers.Add((RenderTargetBinding[])_currentRenderTargetBindings.Clone(), glFramebuffer);
             }
             else
             {
