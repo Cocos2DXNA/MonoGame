@@ -709,13 +709,16 @@ namespace Microsoft.Xna.Framework.Graphics
         {
             var glFramebuffer = 0;
             bool bFBONotFound = false;
-            if (!this.glFramebuffers.TryGetValue(this._currentRenderTargetBindings, out glFramebuffer))
+            lock (glFramebuffers)
             {
-                bFBONotFound = true;
-                // Must lock access to glFramebuffers becuase the async dispose pattern will cause concurrent
-                // modification exceptions during the dispose process
-                //
-                this.glFramebuffers.Add((RenderTargetBinding[])_currentRenderTargetBindings.Clone(), glFramebuffer);
+                if (!this.glFramebuffers.TryGetValue(this._currentRenderTargetBindings, out glFramebuffer))
+                {
+                    bFBONotFound = true;
+                    // Must lock access to glFramebuffers becuase the async dispose pattern will cause concurrent
+                    // modification exceptions during the dispose process
+                    //
+                    this.glFramebuffers.Add((RenderTargetBinding[])_currentRenderTargetBindings.Clone(), glFramebuffer);
+                }
             }
             if(bFBONotFound) 
             {
