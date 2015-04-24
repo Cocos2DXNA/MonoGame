@@ -390,20 +390,6 @@
       <Platforms>Windows8,WindowsPhone81</Platforms>
 	  <Link>Windows8\GamerServices\SignedInGamer.cs</Link>
     </Compile>
-    <Compile Include="..\MonoGame.Framework\Windows8\GamerServices\EventAsync.cs">
-      <Platforms>Windows8,WindowsPhone81</Platforms>
-	  <Link>Windows8\GamerServices\EventAsync.cs</Link>
-    </Compile>
-    <Compile Include="..\MonoGame.Framework\Windows8\GamerServices\InputDialog.cs">
-      <Platforms>Windows8,WindowsPhone81</Platforms>
-	  <Link>Windows8\GamerServices\InputDialog.cs</Link>
-    </Compile>
-    <Page Include="..\MonoGame.Framework\Themes\generic.xaml">
-        <Platforms>Windows8,WindowsPhone81</Platforms>
-        <Generator>MSBuild:Compile</Generator>
-        <SubType>Designer</SubType>
-	  <Link>Themes\generic.xaml</Link>
-    </Page>
 
     <!-- Windows Desktop Platform -->
     <Compile Include="..\MonoGame.Framework\Windows\GamerServices\Guide.cs">
