@@ -43,6 +43,7 @@
   <Properties>
     
     <NoWarn>1591,0436</NoWarn>
+    <MonoDevelopPoliciesFile>Build/MonoDevelopPolicies.xml</MonoDevelopPoliciesFile>
 
     <RootNamespace>Microsoft.Xna.Framework</RootNamespace>
 	<RemoveXnaAssembliesOnWP8>False</RemoveXnaAssembliesOnWP8>
@@ -52,13 +53,13 @@
     <CustomDefinitions>
       <Platform Name="Android">TRACE;ANDROID;GLES;OPENGL;NET</Platform>
       <Platform Name="iOS">IOS;GLES;OPENGL;OPENAL;NET</Platform>
-      <Platform Name="Linux">TRACE;LINUX;OPENGL;OPENAL;NET</Platform>
+      <Platform Name="Linux">TRACE;LINUX;OPENGL;OPENAL;NET;DESKTOPGL</Platform>
       <Platform Name="MacOS">MONOMAC;OPENGL;OPENAL;NET</Platform>
       <Platform Name="Ouya">TRACE;ANDROID;GLES;OPENGL;OUYA;NET</Platform>
       <Platform Name="PSMobile">PSM;NET</Platform>
       <Platform Name="Windows">TRACE;WINDOWS;DIRECTX;WINDOWS_MEDIA_SESSION;NET</Platform>
       <Platform Name="Windows8">TRACE;NETFX_CORE;WINRT;WINDOWS_STOREAPP;DIRECTX;DIRECTX11_1;WINDOWS_MEDIA_ENGINE;NET</Platform>
-      <Platform Name="WindowsGL">TRACE;WINDOWS;OPENGL;OPENAL;NET</Platform>
+      <Platform Name="WindowsGL">TRACE;WINDOWS;OPENGL;OPENAL;NET;DESKTOPGL</Platform>
       <Platform Name="WindowsPhone">TRACE;SILVERLIGHT;WINDOWS_PHONE;WINRT;DIRECTX;NET</Platform>
       <Platform Name="WindowsPhone81">TRACE;WINRT;WINDOWS_PHONE81;DIRECTX;WINDOWS_STOREAPP</Platform>
     </CustomDefinitions>
@@ -148,11 +149,11 @@
       <Link>GamerServices\SignedInGamerCollection.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\GamerServices\GuideAlreadyVisibleException.cs">
-      <Platforms>MacOS,Windows,WindowsGL,Android,Ouya</Platforms>
+      <Platforms>Android,MacOS,Ouya,Windows,WindowsGL,Linux</Platforms>
       <Link>GamerServices\GuideAlreadyVisibleException.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\GamerServices\GamerServicesDispatcher.cs">
-      <Platforms>MacOS,Windows,WindowsGL</Platforms>
+      <Platforms>MacOS,Windows,WindowsGL,Linux</Platforms>
       <Link>GamerServices\GamerServicesDispatcher.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\GamerServices\GamerServicesComponent.cs">
@@ -332,18 +333,18 @@
 	  <Link>GamerServices\NotificationPosition.cs</Link>
     </Compile>
     
-    <!-- Linux Platform -->
-    <Compile Include="..\MonoGame.Framework\Linux\GamerServices\Guide.cs">
-      <Platforms>Linux</Platforms>
-	  <Link>Linux\GamerServices\Guide.cs</Link>
+    <!-- DesktopGL Platform -->
+    <Compile Include="..\MonoGame.Framework\DesktopGL\GamerServices\Guide.cs">
+      <Platforms>WindowsGL,Linux</Platforms>
+	  <Link>DesktopGL\GamerServices\Guide.cs</Link>
     </Compile>
-    <Compile Include="..\MonoGame.Framework\Linux\GamerServices\MonoGameGamerServicesHelper.cs">
-      <Platforms>Linux</Platforms>
-	  <Link>Linux\GamerServices\MonoGameGamerServicesHelper.cs</Link>
+    <Compile Include="..\MonoGame.Framework\DesktopGL\GamerServices\MonoGameGamerServicesHelper.cs">
+      <Platforms>WindowsGL,Linux</Platforms>
+	  <Link>DesktopGL\GamerServices\MonoGameGamerServicesHelper.cs</Link>
     </Compile>
-    <Compile Include="..\MonoGame.Framework\Linux\GamerServices\SignedInGamer.cs">
-      <Platforms>Linux</Platforms>
-	  <Link>Linux\GamerServices\SignedInGamer.cs</Link>
+    <Compile Include="..\MonoGame.Framework\DesktopGL\GamerServices\SignedInGamer.cs">
+      <Platforms>WindowsGL,Linux</Platforms>
+	  <Link>DesktopGL\GamerServices\SignedInGamer.cs</Link>
     </Compile>
 
 
@@ -393,15 +394,15 @@
 
     <!-- Windows Desktop Platform -->
     <Compile Include="..\MonoGame.Framework\Windows\GamerServices\Guide.cs">
-      <Platforms>Windows8,Windows,WindowsGL,WindowsPhone,WindowsPhone81</Platforms>
+      <Platforms>Windows8,Windows,WindowsPhone,WindowsPhone81</Platforms>
 	  <Link>Windows\GamerServices\Guide.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Windows\GamerServices\MonoGameGamerServicesHelper.cs">
-      <Platforms>Windows,WindowsGL</Platforms>
+      <Platforms>Windows</Platforms>
 	  <Link>Windows\GamerServices\MonoGameGamerServicesHelper.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Windows\GamerServices\SignedInGamer.cs">
-      <Platforms>Windows,WindowsGL</Platforms>
+      <Platforms>Windows</Platforms>
 	  <Link>Windows\GamerServices\SignedInGamer.cs</Link>
     </Compile>
 

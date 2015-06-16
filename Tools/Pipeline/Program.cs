@@ -40,14 +40,22 @@ namespace MonoGame.Tools.Pipeline
 #if LINUX || MONOMAC
 
 			Gtk.Application.Init ();
+            Global.Initalize ();
 			MainWindow win = new MainWindow ();
 			win.Show (); 
 			new PipelineController(win);
+			#if LINUX
 			if (args != null && args.Length > 0)
 			{
 				var projectFilePath = string.Join(" ", args);
 				win.OpenProjectPath = projectFilePath;
 			}
+			#elif MONOMAC
+			var project = Environment.GetEnvironmentVariable("MONOGAME_PIPELINE_PROJECT");
+			if (!string.IsNullOrEmpty (project)) {
+				win.OpenProjectPath = project;
+			}
+			#endif
 			win.OnShowEvent ();
 			Gtk.Application.Run ();
 #endif

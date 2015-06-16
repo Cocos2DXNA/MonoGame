@@ -159,6 +159,14 @@ namespace Microsoft.Xna.Framework.Graphics
             private set;
         }
 
+        internal GraphicsMetrics _graphicsMetrics;
+
+        /// <summary>
+        /// The rendering information for debugging and profiling.
+        /// The metrics are reset every frame after draw within <see cref="GraphicsDevice.Present"/>. 
+        /// </summary>
+        public GraphicsMetrics Metrics { get { return _graphicsMetrics; } set { _graphicsMetrics = value; } }
+
         internal GraphicsDevice(GraphicsDeviceInformation gdi)
         {
             if (gdi.PresentationParameters == null)
@@ -215,10 +223,10 @@ namespace Microsoft.Xna.Framework.Graphics
 
             PlatformSetup();
 
-            VertexTextures = new TextureCollection(MaxVertexTextureSlots, true);
+            VertexTextures = new TextureCollection(this, MaxVertexTextureSlots, true);
             VertexSamplerStates = new SamplerStateCollection(this, MaxVertexTextureSlots, true);
 
-            Textures = new TextureCollection(MaxTextureSlots, false);
+            Textures = new TextureCollection(this, MaxTextureSlots, false);
             SamplerStates = new SamplerStateCollection(this, MaxTextureSlots, false);
 
             _blendStateAdditive = BlendState.Additive.Clone();
@@ -486,6 +494,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
         public void Present()
         {
+            _graphicsMetrics = new GraphicsMetrics();
             PlatformPresent();
         }
 
@@ -831,6 +840,13 @@ namespace Microsoft.Xna.Framework.Graphics
             // They will only be used if the graphics API can use
             // this range hint to optimize rendering.
 
+           
+            unchecked
+            {
+                _graphicsMetrics._drawCount++;
+                _graphicsMetrics._primitiveCount += (ulong) primitiveCount;
+            }
+
             PlatformDrawIndexedPrimitives(primitiveType, baseVertex, startIndex, primitiveCount);
         }
 
@@ -860,6 +876,12 @@ namespace Microsoft.Xna.Framework.Graphics
 
             if (vertexDeclaration == null)
                 throw new ArgumentNullException("vertexDeclaration");
+            
+            unchecked
+            {
+                _graphicsMetrics._drawCount++;
+                _graphicsMetrics._primitiveCount += (ulong) primitiveCount;
+            }
 
             PlatformDrawUserPrimitives<T>(primitiveType, vertexData, vertexOffset, vertexDeclaration, vertexCount);
         }
@@ -876,6 +898,13 @@ namespace Microsoft.Xna.Framework.Graphics
                 throw new ArgumentOutOfRangeException("primitiveCount");
 
             var vertexCount = GetElementCountArray(primitiveType, primitiveCount);
+
+            
+            unchecked
+            {
+                _graphicsMetrics._drawCount++;
+                _graphicsMetrics._primitiveCount += (ulong) primitiveCount;
+            }
 
             PlatformDrawPrimitives(primitiveType, vertexStart, vertexCount);
         }
@@ -917,6 +946,13 @@ namespace Microsoft.Xna.Framework.Graphics
             if (vertexDeclaration == null)
                 throw new ArgumentNullException("vertexDeclaration");
 
+            
+            unchecked
+            {
+                _graphicsMetrics._drawCount++;
+                _graphicsMetrics._primitiveCount += (ulong) primitiveCount;
+            }
+
             PlatformDrawUserIndexedPrimitives<T>(primitiveType, vertexData, vertexOffset, numVertices, indexData, indexOffset, primitiveCount, vertexDeclaration);
         }
 
@@ -957,6 +993,13 @@ namespace Microsoft.Xna.Framework.Graphics
             if (vertexDeclaration == null)
                 throw new ArgumentNullException("vertexDeclaration");
 
+            
+            unchecked
+            {
+                _graphicsMetrics._drawCount++;
+                _graphicsMetrics._primitiveCount += (ulong) primitiveCount;
+            }
+
             PlatformDrawUserIndexedPrimitives<T>(primitiveType, vertexData, vertexOffset, numVertices, indexData, indexOffset, primitiveCount, vertexDeclaration);
         }
 
@@ -991,6 +1034,5 @@ namespace Microsoft.Xna.Framework.Graphics
         {
             return PlatformGetHighestSupportedGraphicsProfile(graphicsDevice);
         }
-
     }
 }
