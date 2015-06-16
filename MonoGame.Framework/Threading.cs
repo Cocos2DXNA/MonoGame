@@ -238,15 +238,27 @@ namespace Microsoft.Xna.Framework
             {
                 lock (BackgroundContext)
                 {
-                    // Make the context current on this thread
-                    BackgroundContext.MakeCurrent(WindowInfo);
+                    bool bSuccess = false;
+                    try
+                    {
+                        // Make the context current on this thread
+                        BackgroundContext.MakeCurrent(WindowInfo);
+                        bSuccess = true;
+                    }
+                    catch (Exception)
+                    {
+                        // Ignore - can't get the window
+                    }
                     // Execute the action
                     action();
                     // Must flush the GL calls so the texture is ready for the main context to use
                     GL.Flush();
                     GraphicsExtensions.CheckGLError();
-                    // Must make the context not current on this thread or the next thread will get error 170 from the MakeCurrent call
-                    BackgroundContext.MakeCurrent(null);
+                    if (bSuccess)
+                    {
+                        // Must make the context not current on this thread or the next thread will get error 170 from the MakeCurrent call
+                        BackgroundContext.MakeCurrent(null);
+                    }
                 }
             }
 #elif WINDOWS_PHONE
