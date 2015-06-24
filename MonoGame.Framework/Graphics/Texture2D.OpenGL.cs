@@ -238,8 +238,8 @@ namespace Microsoft.Xna.Framework.Graphics
             {
                 x = rect.Value.X;
                 y = rect.Value.Y;
-                width = this.Width;
-                height = this.Height;
+                width = rect.Value.Width;
+                height = rect.Value.Height;
             }
             GL.ReadPixels(x, y, width, height, this.glFormat, this.glType, data);
             GraphicsExtensions.CheckGLError();
