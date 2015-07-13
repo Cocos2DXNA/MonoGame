@@ -432,6 +432,11 @@ namespace MonoGame.Framework
                 Game.Tick();
             }
 
+            //
+            // In the OS hosted game we want the WM_QUIT event to propagate to the OS host container,
+            // otherwise it never thinks the game has ended.
+            //
+#if DEBUG
             // We need to remove the WM_QUIT message in the message 
             // pump as it will keep us from restarting on this 
             // same thread.
@@ -439,7 +444,6 @@ namespace MonoGame.Framework
             // This is critical for some NUnit runners which
             // typically will run all the tests on the same
             // process/thread.
-
             var msg = new NativeMessage();
             do
             {
@@ -449,6 +453,7 @@ namespace MonoGame.Framework
                 Thread.Sleep(100);
             } 
             while (PeekMessage(out msg, IntPtr.Zero, 0, 0, 1));
+#endif
         }
 
         internal void UpdateWindows()
