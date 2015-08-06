@@ -13,7 +13,7 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 #endif
 
-#if WINDOWS_STOREAPP
+#if WINDOWS_STOREAPP || WINDOWS_UAP
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 using System.Threading.Tasks;
@@ -239,7 +239,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
         private void PlatformSaveAsJpeg(Stream stream, int width, int height)
         {
-#if WINDOWS_STOREAPP
+#if WINDOWS_STOREAPP || WINDOWS_UAP
             SaveAsImage(BitmapEncoder.JpegEncoderId, stream, width, height);
 #endif
 #if WINDOWS_PHONE
@@ -259,7 +259,7 @@ namespace Microsoft.Xna.Framework.Graphics
             });
 
 #endif
-#if !WINDOWS_STOREAPP && !WINDOWS_PHONE
+#if !WINDOWS_STOREAPP && !WINDOWS_PHONE && !WINDOWS_UAP
             throw new NotImplementedException();
 #endif
         }
@@ -290,8 +290,7 @@ namespace Microsoft.Xna.Framework.Graphics
             pngWriter.Write(this, stream);
         }
 
-#if WINDOWS_STOREAPP
-
+#if WINDOWS_STOREAPP || WINDOWS_UAP
         private void SaveAsImage(Guid encoderId, Stream stream, int width, int height)
         {
             var pixelData = new byte[Width * Height * GraphicsExtensions.GetSize(Format)];
