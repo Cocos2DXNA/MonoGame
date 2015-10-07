@@ -97,6 +97,7 @@ namespace Microsoft.Xna.Framework
             {
                 // Can happen when the activity exits
             }
+            ScreenReceiver.ScreenLocked = false;
             _orientationListener = null;
             if (Game != null)
                 Game.Dispose();
