@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 
 
 namespace Microsoft.Xna.Framework.Graphics
@@ -44,8 +45,8 @@ namespace Microsoft.Xna.Framework.Graphics
         private Rectangle _scissorRectangle;
         private bool _scissorRectangleDirty;
 
-        private VertexBuffer _vertexBuffer;
-        private bool _vertexBufferDirty;
+        private VertexBufferBindings _vertexBuffers;
+        private bool _vertexBuffersDirty;
 
         private IndexBuffer _indexBuffer;
         private bool _indexBufferDirty;
@@ -126,6 +127,7 @@ namespace Microsoft.Xna.Framework.Graphics
                 Disposing != null;
         }
 
+        private int _maxVertexBufferSlots;
         internal int MaxTextureSlots;
         internal int MaxVertexTextureSlots;
 
@@ -278,8 +280,9 @@ namespace Microsoft.Xna.Framework.Graphics
             _pixelConstantBuffers.Clear();
 
             // Force set the buffers and shaders on next ApplyState() call
+            _vertexBuffers = new VertexBufferBindings(_maxVertexBufferSlots);
+            _vertexBuffersDirty = true;
             _indexBufferDirty = true;
-            _vertexBufferDirty = true;
             _vertexShaderDirty = true;
             _pixelShaderDirty = true;
 
@@ -786,11 +789,42 @@ namespace Microsoft.Xna.Framework.Graphics
 
         public void SetVertexBuffer(VertexBuffer vertexBuffer)
         {
-            if (_vertexBuffer == vertexBuffer)
-                return;
+            _vertexBuffersDirty |= (vertexBuffer == null)
+                                   ? _vertexBuffers.Clear()
+                                   : _vertexBuffers.Set(vertexBuffer, 0);
+        }
 
-            _vertexBuffer = vertexBuffer;
-            _vertexBufferDirty = true;
+        public void SetVertexBuffer(VertexBuffer vertexBuffer, int vertexOffset)
+        {
+            // Validate vertexOffset.
+            if (vertexOffset < 0
+                || vertexBuffer == null && vertexOffset != 0
+                || vertexBuffer != null && vertexOffset >= vertexBuffer.VertexCount)
+            {
+                throw new ArgumentOutOfRangeException("vertexOffset");
+        }
+
+            _vertexBuffersDirty |= (vertexBuffer == null)
+                                   ? _vertexBuffers.Clear()
+                                   : _vertexBuffers.Set(vertexBuffer, vertexOffset);
+        }
+
+        public void SetVertexBuffers(params VertexBufferBinding[] vertexBuffers)
+        {
+            if (vertexBuffers == null || vertexBuffers.Length == 0)
+            {
+                _vertexBuffersDirty |= _vertexBuffers.Clear();
+            }
+            else
+            {
+                if (vertexBuffers.Length > _maxVertexBufferSlots)
+                {
+                    var message = string.Format(CultureInfo.InvariantCulture, "Max number of vertex buffers is {0}.", _maxVertexBufferSlots);
+                    throw new ArgumentOutOfRangeException("vertexBuffers", message);
+                }
+
+                _vertexBuffersDirty |= _vertexBuffers.Set(vertexBuffers);
+            }
         }
 
         private void SetIndexBuffer(IndexBuffer indexBuffer)
@@ -863,7 +897,7 @@ namespace Microsoft.Xna.Framework.Graphics
             if (_vertexShader == null)
                 throw new InvalidOperationException("Vertex shader must be set before calling DrawIndexedPrimitives.");
 
-            if (_vertexBuffer == null)
+            if (_vertexBuffers.Count == 0)
                 throw new InvalidOperationException("Vertex buffer must be set before calling DrawIndexedPrimitives.");
 
             if (_indexBuffer == null)
@@ -922,7 +956,7 @@ namespace Microsoft.Xna.Framework.Graphics
             if (_vertexShader == null)
                 throw new InvalidOperationException("Vertex shader must be set before calling DrawPrimitives.");
 
-            if (_vertexBuffer == null)
+            if (_vertexBuffers.Count == 0)
                 throw new InvalidOperationException("Vertex buffer must be set before calling DrawPrimitives.");
 
             if (primitiveCount <= 0)
@@ -1031,14 +1065,28 @@ namespace Microsoft.Xna.Framework.Graphics
             }
         }
 
-		/// <summary>
-        /// Gets the Pixel data of what is currently drawn on screen.
-        /// On XNA/OpenGL this is in BGRA format. On DirectX/iOS/Android it is RGBA format.
-        /// </summary>
-        /// <typeparam name="T">A byte[] of size (ViewPort.Width * ViewPort.Height * 4)</typeparam>
-        public void GetBackBufferData<T>(T[] data) where T : struct
+        public void DrawInstancedPrimitives(PrimitiveType primitiveType, int baseVertex, int minVertexIndex,
+                                            int numVertices, int startIndex, int primitiveCount, int instanceCount)
         {
-            PlatformGetBackBufferData(data);
+            if (_vertexShader == null)
+                throw new InvalidOperationException("Vertex shader must be set before calling DrawInstancedPrimitives.");
+
+            if (_vertexBuffers.Count == 0)
+                throw new InvalidOperationException("Vertex buffer must be set before calling DrawInstancedPrimitives.");
+
+            if (_indexBuffer == null)
+                throw new InvalidOperationException("Index buffer must be set before calling DrawInstancedPrimitives.");
+
+            if (primitiveCount <= 0)
+                throw new ArgumentOutOfRangeException("primitiveCount");
+
+            PlatformDrawInstancedPrimitives(primitiveType, baseVertex, startIndex, primitiveCount, instanceCount);
+
+            unchecked
+            {
+                _graphicsMetrics._drawCount++;
+                _graphicsMetrics._primitiveCount += (ulong)(primitiveCount * instanceCount);
+            }
         }
 
 	private static int GetElementCountArray(PrimitiveType primitiveType, int primitiveCount)
