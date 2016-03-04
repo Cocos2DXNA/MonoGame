@@ -429,8 +429,23 @@ namespace Microsoft.Xna.Framework.Audio
             }
             AL.SourcePlay(inst.SourceId);
             ALHelper.CheckError("Failed to play source.");
-            CheckALError(String.Format("could not play source '{0}'", soundBuffer.SourceId));
+            CheckALError(String.Format("could not play source '{0}'", inst.SourceId));
 		}
+
+        internal void PlaySound(int sourceId)
+        {
+            if (!CheckInitState())
+            {
+                return;
+            }
+            lock (playingSourcesCollection)
+            {
+                playingSourcesCollection.Add(sourceId);
+            }
+            AL.SourcePlay(sourceId);
+            ALHelper.CheckError("Failed to play source.");
+            CheckALError(String.Format("could not play source '{0}'", sourceId));
+        }
 
         public void FreeSource(SoundEffectInstance inst)
         {

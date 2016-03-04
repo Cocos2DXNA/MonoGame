@@ -24,7 +24,7 @@ namespace Microsoft.Xna.Framework.Audio {
 
         public DynamicSoundEffectInstance (int sampleRate, AudioChannels channels)
         {
-            soundState = SoundState.Stopped;
+            SoundState = SoundState.Stopped;
             this.sampleRate = sampleRate;
             setFormatFor(channels);
             bytesPerSecond = ((int) channels) * sampleRate * SAMPLE_WIDTH;
@@ -62,13 +62,13 @@ namespace Microsoft.Xna.Framework.Audio {
 
         public override void Stop()
         {
-            soundState = SoundState.Stopped;
+            SoundState = SoundState.Stopped;
         }
 
         public override void Pause()
         {
-            if (soundState == SoundState.Playing) {
-                soundState = SoundState.Paused;
+            if (SoundState == SoundState.Playing) {
+                SoundState = SoundState.Paused;
             }
         }
     }

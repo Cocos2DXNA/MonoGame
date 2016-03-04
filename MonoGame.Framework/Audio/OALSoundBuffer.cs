@@ -12,53 +12,61 @@ using OpenTK.Audio.OpenAL;
 
 namespace Microsoft.Xna.Framework.Audio
 {
-	internal class OALSoundBuffer : IDisposable
-	{
-		int openALDataBuffer;
-		ALFormat openALFormat;
-		int dataSize;
-		int sampleRate;
+    internal class OALSoundBuffer : IDisposable
+    {
+        int openALDataBuffer;
+        ALFormat openALFormat;
+        int dataSize;
+        int sampleRate;
         bool _isDisposed;
+        public int SourceId;
 
-		public OALSoundBuffer ()
-		{
+        public OALSoundBuffer()
+        {
             try
             {
                 AL.GenBuffers(1, out openALDataBuffer);
                 ALHelper.CheckError("Failed to generate OpenAL data buffer.");
-                }
+            }
             catch (DllNotFoundException e)
             {
                 throw new NoAudioHardwareException("OpenAL drivers could not be found.", e);
             }
-		}
-
-        public OALSoundBuffer (int bufferId, int sourceId)
+        }
+        public OALSoundBuffer(int bufferId, int sourceId)
         {
             openALDataBuffer = bufferId;
             SourceId = sourceId;
         }
+        public OALSoundBuffer(int bufferId)
+        {
+            openALDataBuffer = bufferId;
+        }
 
-		~OALSoundBuffer()
+        ~OALSoundBuffer()
         {
             Dispose(false);
         }
 
-		public int OpenALDataBuffer {
-			get {
-				return openALDataBuffer;
-			}
-		}
+        public int OpenALDataBuffer
+        {
+            get
+            {
+                return openALDataBuffer;
+            }
+        }
 
-		public double Duration {
-			get;
-			set;
-		}
+        public double Duration
+        {
+            get;
+            set;
+        }
 
         public void BindDataBuffer(byte[] dataBuffer, ALFormat format, int size, int sampleRate)
         {
             openALFormat = format;
             dataSize = size;
+            Duration = -1;
             this.sampleRate = sampleRate;
             AL.BufferData(openALDataBuffer, openALFormat, dataBuffer, dataSize, this.sampleRate);
             ALHelper.CheckError("Failed to fill buffer.");
@@ -66,36 +74,18 @@ namespace Microsoft.Xna.Framework.Audio
             int bits, channels;
 
             AL.GetBuffer(openALDataBuffer, ALGetBufferi.Bits, out bits);
-            alError = AL.GetError();
-            if (alError != ALError.NoError)
-            {
-                Console.WriteLine("Failed to get buffer bits: {0}, format={1}, size={2}, sampleRate={3}", AL.GetErrorString(alError), format, size, sampleRate);
-                Duration = -1;
-            }
-            else
-            {
-                AL.GetBuffer(openALDataBuffer, ALGetBufferi.Channels, out channels);
+            ALHelper.CheckError(string.Format("Failed to get buffer bits: format={0}, size={1}, sampleRate={2}", format, size, sampleRate));
 
-                alError = AL.GetError();
-                if (alError != ALError.NoError)
-                {
-                    Console.WriteLine("Failed to get buffer channels: {0}, format={1}, size={2}, sampleRate={3}", AL.GetErrorString(alError), format, size, sampleRate);
-                    Duration = -1;
-                }
-                else
-                {
-                    Duration = (float)(size / ((bits / 8) * channels)) / (float)sampleRate;
-                }
-            }
-            //Console.WriteLine("Duration: " + Duration + " / size: " + size + " bits: " + bits + " channels: " + channels + " rate: " + sampleRate);
-
+            AL.GetBuffer(openALDataBuffer, ALGetBufferi.Channels, out channels);
+            ALHelper.CheckError(string.Format("Failed to get buffer channels: format={0}, size={1}, sampleRate={2}", format, size, sampleRate));
+            Duration = (float)(size / ((bits / 8) * channels)) / (float)sampleRate;
         }
 
-		public void Dispose()
-		{
+        public void Dispose()
+        {
             Dispose(true);
             GC.SuppressFinalize(this);
-		}
+        }
 
         protected virtual void Dispose(bool disposing)
         {
@@ -116,5 +106,5 @@ namespace Microsoft.Xna.Framework.Audio
                 _isDisposed = true;
             }
         }
-			}
+    }
 }

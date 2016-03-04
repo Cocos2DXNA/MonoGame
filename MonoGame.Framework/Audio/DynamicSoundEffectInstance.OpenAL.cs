@@ -16,7 +16,6 @@ namespace Microsoft.Xna.Framework.Audio {
         ALFormat format;
         ConcurrentQueue<OALSoundBuffer> allocatedBuffers = new ConcurrentQueue<OALSoundBuffer> ();
         ConcurrentQueue<OALSoundBuffer> processedBuffers = new ConcurrentQueue<OALSoundBuffer> ();
-        int SourceId;
 
         void setFormatFor (AudioChannels channels)
         {
@@ -55,19 +54,15 @@ namespace Microsoft.Xna.Framework.Audio {
             }
 
             if (SourceId == 0) {
-                bool isSourceAvailable = controller.ReserveSource (soundBuffer);
-                if (!isSourceAvailable)
-                    throw new InstancePlayLimitException ();
-                SourceId = soundBuffer.SourceId;
-            } else {
-                soundBuffer.SourceId = SourceId;
+                SourceId = controller.ReserveSource();
             }
+
+            soundBuffer.SourceId = SourceId;
 
             allocatedBuffers.Enqueue (soundBuffer);
             soundBuffer.BindDataBuffer (dataSubset, format, size, rate);
 
-            // TODO move AL access to OpenALSoundController
-            AL.SourceQueueBuffer (soundBuffer.SourceId, soundBuffer.OpenALDataBuffer);
+            AL.SourceQueueBuffer (SourceId, soundBuffer.OpenALDataBuffer);
             
             if (controller.CheckALError("failed to queue buffer")) {
                 throw new InvalidOperationException ("failed to queue buffer");
@@ -98,11 +93,11 @@ namespace Microsoft.Xna.Framework.Audio {
             }
 
             ApplyState (nextBuffer.SourceId);
-            controller.PlaySound (nextBuffer);
+            controller.PlaySound (nextBuffer.SourceId);
             
-            soundState = SoundState.Playing;
+            SoundState = SoundState.Playing;
 
-            while (soundState == SoundState.Playing) {
+            while (SoundState == SoundState.Playing) {
                 int processed;
                 AL.GetSource (nextBuffer.SourceId, ALGetSourcei.BuffersProcessed, out processed);
                 PendingBufferCount += processed;
@@ -110,7 +105,7 @@ namespace Microsoft.Xna.Framework.Audio {
                 while (processed > 0) {
                     OALSoundBuffer soundBuffer;
                     if (!allocatedBuffers.TryDequeue (out soundBuffer)) {
-                        soundState = SoundState.Stopped;
+                        SoundState = SoundState.Stopped;
                         return;
                     }
                 
@@ -125,7 +120,7 @@ namespace Microsoft.Xna.Framework.Audio {
 
                 while (allocatedBuffers.Count < NUM_BUFFERS) {
                     if (PendingBufferCount == 0) {
-                        soundState = SoundState.Stopped;
+                        SoundState = SoundState.Stopped;
                         break;
                     }
 

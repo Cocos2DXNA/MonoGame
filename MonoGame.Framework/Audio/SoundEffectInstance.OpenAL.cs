@@ -112,6 +112,29 @@ namespace Microsoft.Xna.Framework.Audio
             SoundState = SoundState.Paused;
         }
 
+        protected virtual void ApplyState()
+        {
+            ApplyState(SourceId);
+        }
+        protected virtual void ApplyState(int sourceId)
+        {
+            // Distance Model
+            AL.DistanceModel(ALDistanceModel.InverseDistanceClamped);
+            ALHelper.CheckError("Failed set source distance.");
+            // Pan
+            AL.Source(sourceId, ALSource3f.Position, _pan, 0, 0.1f);
+            ALHelper.CheckError("Failed to set source pan.");
+            // Volume
+            AL.Source(sourceId, ALSourcef.Gain, _alVolume);
+            ALHelper.CheckError("Failed to set source volume.");
+            // Looping
+            AL.Source(sourceId, ALSourceb.Looping, IsLooped);
+            ALHelper.CheckError("Failed to set source loop state.");
+            // Pitch
+            AL.Source(sourceId, ALSourcef.Pitch, XnaPitchToAlPitch(_pitch));
+            ALHelper.CheckError("Failed to set source pitch.");
+        }
+
         private void PlatformPlay()
         {
 
@@ -128,22 +151,7 @@ namespace Microsoft.Xna.Framework.Audio
             if (!HasSourceId)
 				return;
 
-			// Distance Model
-			AL.DistanceModel (ALDistanceModel.InverseDistanceClamped);
-            ALHelper.CheckError("Failed set source distance.");
-			// Pan
-			AL.Source (SourceId, ALSource3f.Position, _pan, 0, 0.1f);
-            ALHelper.CheckError("Failed to set source pan.");
-			// Volume
-			AL.Source (SourceId, ALSourcef.Gain, _alVolume);
-            ALHelper.CheckError("Failed to set source volume.");
-			// Looping
-			AL.Source (SourceId, ALSourceb.Looping, IsLooped);
-            ALHelper.CheckError("Failed to set source loop state.");
-			// Pitch
-			AL.Source (SourceId, ALSourcef.Pitch, XnaPitchToAlPitch(_pitch));
-            ALHelper.CheckError("Failed to set source pitch.");
-
+            ApplyState();
             controller.PlaySound (this);
             //Console.WriteLine ("playing: " + sourceId + " : " + soundEffect.Name);
             SoundState = SoundState.Playing;
