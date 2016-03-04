@@ -24,7 +24,7 @@ namespace Microsoft.Xna.Framework.Input
         private static readonly long[] _timeout = new long[4];
         private static readonly long TimeoutTicks = TimeSpan.FromSeconds(1).Ticks;
 
-        private static int PlatformGetMaxIndex()
+        private static int PlatformGetMaxNumberOfGamePads()
         {
             return 4;
         }
@@ -132,8 +132,8 @@ namespace Microsoft.Xna.Framework.Input
             ret.HasLeftVibrationMotor = hasForceFeedback && capabilities.Vibration.LeftMotorSpeed > 0;
             ret.HasRightVibrationMotor = hasForceFeedback && capabilities.Vibration.RightMotorSpeed > 0;
 #else
-            ret.HasLeftVibrationMotor = false;
-            ret.HasRightVibrationMotor = false;
+            ret.HasLeftVibrationMotor = (capabilities.Vibration.LeftMotorSpeed > 0);
+            ret.HasRightVibrationMotor = (capabilities.Vibration.RightMotorSpeed > 0);
 #endif
 
             // other

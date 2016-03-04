@@ -9,9 +9,15 @@ using System.Drawing;
 using MonoGame.Utilities.Png;
 
 #if MONOMAC
+#if PLATFORM_MACOS_LEGACY
 using MonoMac.AppKit;
 using MonoMac.CoreGraphics;
 using MonoMac.Foundation;
+#else
+using AppKit;
+using CoreGraphics;
+using Foundation;
+#endif
 #endif
 
 #if IOS
@@ -22,8 +28,13 @@ using Foundation;
 
 #if OPENGL
 #if MONOMAC
+#if PLATFORM_MACOS_LEGACY
 using MonoMac.OpenGL;
 using GLPixelFormat = MonoMac.OpenGL.PixelFormat;
+#else
+using OpenTK.Graphics.OpenGL;
+using GLPixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;
+#endif
 #endif
 
 #if DESKTOPGL
@@ -303,8 +314,12 @@ namespace Microsoft.Xna.Framework.Graphics
 #if IOS
 				var cgImage = uiImage.CGImage;
 #elif MONOMAC
+#if PLATFORM_MACOS_LEGACY
 				var rectangle = RectangleF.Empty;
-				var cgImage = nsImage.AsCGImage (ref rectangle, null, null);
+#else
+                var rectangle = CGRect.Empty;
+#endif
+                var cgImage = nsImage.AsCGImage (ref rectangle, null, null);
 #endif
 
 			    return PlatformFromStream(graphicsDevice, cgImage);
@@ -397,7 +412,11 @@ namespace Microsoft.Xna.Framework.Graphics
 #if MONOMAC
         public static Texture2D FromStream(GraphicsDevice graphicsDevice, NSImage nsImage)
         {
+#if PLATFORM_MACOS_LEGACY
             var rectangle = RectangleF.Empty;
+#else
+            var rectangle = CGRect.Empty;
+#endif
 		    var cgImage = nsImage.AsCGImage (ref rectangle, null, null);
             return PlatformFromStream(graphicsDevice, cgImage);
         }
@@ -413,7 +432,11 @@ namespace Microsoft.Xna.Framework.Graphics
 
             var colorSpace = CGColorSpace.CreateDeviceRGB();
             var bitmapContext = new CGBitmapContext(data, width, height, 8, width * 4, colorSpace, CGBitmapFlags.PremultipliedLast);
+#if PLATFORM_MACOS_LEGACY || IOS
             bitmapContext.DrawImage(new RectangleF(0, 0, width, height), cgImage);
+#else
+            bitmapContext.DrawImage(new CGRect(0, 0, width, height), cgImage);
+#endif
             bitmapContext.Dispose();
             colorSpace.Dispose();
 

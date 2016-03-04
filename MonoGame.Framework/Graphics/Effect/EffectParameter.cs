@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Text;
 using System.Diagnostics;
 
@@ -113,9 +114,21 @@ namespace Microsoft.Xna.Framework.Graphics
                 if (!string.IsNullOrEmpty(Semantic))                
                     semanticStr = string.Concat(" <", Semantic, ">");
 
+                return string.Concat("[", ParameterClass, " ", ParameterType, "]", semanticStr, " ", Name, " : ", GetDataValueString());
+            }
+        }
+
+        private string GetDataValueString()
+        {
                 string valueStr;
+
                 if (Data == null)
+            {
+                if (Elements == null)
                     valueStr = "(null)";
+                else                
+                    valueStr = string.Join(", ", Elements.Select(e => e.GetDataValueString()));                
+            }
                 else
                 {
                     switch (ParameterClass)
@@ -159,11 +172,9 @@ namespace Microsoft.Xna.Framework.Graphics
                             break;
                     }
                 }
-                
-                return string.Concat("[", ParameterClass, " ", ParameterType, "]", semanticStr, " ", Name, " : ", valueStr);
-            }
-        }
 
+            return string.Concat("{", valueStr, "}");                
+            }
 
         public bool GetValueBoolean ()
 		{
@@ -880,11 +891,5 @@ namespace Microsoft.Xna.Framework.Graphics
 				Elements[i].SetValue (value[i]);
             StateKey = unchecked(NextStateKey++);
 		}
-        
-#if PSM        
-        internal delegate void InternalSetDelegate (EffectParameter parameter, ShaderProgram shaderProgram);
-        
-        internal InternalSetDelegate InternalSet = null;
-#endif
-	}
+	}    
 }
