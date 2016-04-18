@@ -142,9 +142,10 @@ namespace Microsoft.Xna.Framework.Input
             if (((OpenTKGameWindow)window).Window.Visible)
             {
                 var state = OpenTK.Input.Mouse.GetCursorState();
-            
-            window.MouseState.X = state.X;
-            window.MouseState.Y = state.Y;
+
+            var clientBounds = window.ClientBounds;
+            window.MouseState.X = state.X - clientBounds.X;
+            window.MouseState.Y = state.Y - clientBounds.Y;
 
                 window.MouseState.LeftButton = (ButtonState)state.LeftButton;
                 window.MouseState.RightButton = (ButtonState)state.RightButton;
@@ -248,23 +249,6 @@ namespace Microsoft.Xna.Framework.Input
         [DllImportAttribute("user32.dll", EntryPoint = "SetCursorPos")]
         [return: MarshalAsAttribute(System.Runtime.InteropServices.UnmanagedType.Bool)]
         internal static extern bool SetCursorPos(int X, int Y);
-
-        /// <summary>
-        /// Struct representing a point. 
-        /// (Suggestion : Make another class for mouse extensions)
-        /// </summary>
-        [StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
-        internal struct POINT
-        {
-            public int X;
-            public int Y;
-
-            public System.Drawing.Point ToPoint()
-            {
-                return new System.Drawing.Point(X, Y);
-            }
-
-        }
 
 #elif MONOMAC
 #if PLATFORM_MACOS_LEGACY

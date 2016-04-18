@@ -80,12 +80,40 @@ using Microsoft.Xna.Framework.Input;
 using OpenTK;
 using OpenTK.Graphics;
 
+using MonoGame.Utilities;
+
 namespace Microsoft.Xna.Framework
 {
+    /// <summary>
+    /// The backend options for OpenTK.
+    /// </summary>
+    public enum Backend
+    {
+        /// <summary>
+        /// Use the default backend for the current OS. If SDL2 is found, it will be used.
+        /// </summary>
+        Default,
+
+        /// <summary>
+        /// Use the native backend. SDL2 is not considered.
+        /// </summary>
+        Native
+    }
+
+    /// <summary>
+    /// Parameters that are used in configuring the platform.
+    /// </summary>
+    public static class PlatformParameters
+    {
+        /// <summary>
+        /// The preferred backend for OpenTK to use.
+        /// </summary>
+        public static Backend PreferredBackend = MonoGame.Utilities.CurrentPlatform.OS == OS.Linux ? Backend.Native : Backend.Default;
+    }
+
     class OpenTKGamePlatform : GamePlatform
     {
         private OpenTKGameWindow _view;
-		private OpenALSoundController soundControllerInstance = null;
         // stored the current screen state, so we can check if it has changed.
         private bool isCurrentlyFullScreen = false;
         private int isExiting; // int, so we can use Interlocked.Increment
@@ -95,13 +123,16 @@ namespace Microsoft.Xna.Framework
 		public OpenTKGamePlatform(Game game)
             : base(game)
         {
+            if (PlatformParameters.PreferredBackend != Backend.Default)
+                Toolkit.Init(new ToolkitOptions { Backend = PlatformBackend.PreferNative });
+
             _view = new OpenTKGameWindow(game);
             this.Window = _view;
 
 			// Setup our OpenALSoundController to handle our SoundBuffer pools
             try
             {
-                soundControllerInstance = OpenALSoundController.GetInstance;
+                OpenALSoundController soundControllerInstance = OpenALSoundController.GetInstance;
             }
             catch (DllNotFoundException ex)
             {
@@ -175,9 +206,6 @@ namespace Microsoft.Xna.Framework
         {
             IsActive = _view.Window.Focused;
 
-            // Update our OpenAL sound buffer pools
-            if (soundControllerInstance != null)
-                soundControllerInstance.Update();
             return true;
         }
 

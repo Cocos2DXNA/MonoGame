@@ -77,7 +77,15 @@ namespace Microsoft.Xna.Framework.Audio
             ALHelper.CheckError(string.Format("Failed to get buffer bits: format={0}, size={1}, sampleRate={2}", format, size, sampleRate));
 
             AL.GetBuffer(openALDataBuffer, ALGetBufferi.Channels, out channels);
-            ALHelper.CheckError(string.Format("Failed to get buffer channels: format={0}, size={1}, sampleRate={2}", format, size, sampleRate));
+
+                alError = AL.GetError();
+                if (alError != ALError.NoError)
+                {
+                    Console.WriteLine("Failed to get buffer channels: {0}, format={1}, size={2}, sampleRate={3}", AL.GetErrorString(alError), format, size, sampleRate);
+                    Duration = -1;
+                }
+                else
+                {
             Duration = (float)(size / ((bits / 8) * channels)) / (float)sampleRate;
         }
 

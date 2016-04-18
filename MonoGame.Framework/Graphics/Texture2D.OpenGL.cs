@@ -183,12 +183,12 @@ namespace Microsoft.Xna.Framework.Graphics
                     {
                         if (rect.HasValue)
                         {
-                            GL.CompressedTexSubImage2D(TextureTarget.Texture2D, level, x, y, w, h, glFormat, data.Length - startBytes, dataPtr);
+                            GL.CompressedTexSubImage2D(TextureTarget.Texture2D, level, x, y, w, h, glFormat, elementCount - startBytes, dataPtr);
                             GraphicsExtensions.CheckGLError();
                         }
                         else
                         {
-                            GL.CompressedTexImage2D(TextureTarget.Texture2D, level, glInternalFormat, w, h, 0, data.Length - startBytes, dataPtr);
+                            GL.CompressedTexImage2D(TextureTarget.Texture2D, level, glInternalFormat, w, h, 0, elementCount - startBytes, dataPtr);
                             GraphicsExtensions.CheckGLError();
                         }
                     }
@@ -516,7 +516,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
         private void PlatformSaveAsJpeg(Stream stream, int width, int height)
         {
-#if MONOMAC || WINDOWS
+#if DESKTOPGL || MONOMAC
 			SaveAsImage(stream, width, height, ImageFormat.Jpeg);
 #elif IOS
 			SaveAsImage(stream, width, height, 0);
@@ -529,129 +529,15 @@ namespace Microsoft.Xna.Framework.Graphics
 
         private void PlatformSaveAsPng(Stream stream, int width, int height)
         {
-#if MONOMAC || WINDOWS || IOS
+#if ANDROID
+            SaveAsImage(stream, width, height, Bitmap.CompressFormat.Png);
+#else
             var pngWriter = new PngWriter();
             pngWriter.Write(this, stream);
-#elif IOS
-			SaveAsImage(stream, width, height, 1);
-#elif ANDROID
-			SaveAsImage(stream, width, height, Bitmap.CompressFormat.Png);
-#else
-            throw new NotImplementedException();
 #endif
         }
 
-#if IOS
-		private void SaveAsImage(Stream stream, int width, int height, int imageFormat)
-		{
-			if (stream == null)
-			{
-				throw new ArgumentNullException("stream", "'stream' cannot be null (Nothing in Visual Basic)");
-			}
-			if (width <= 0)
-			{
-				throw new ArgumentOutOfRangeException("width", width, "'width' cannot be less than or equal to zero");
-			}
-			if (height <= 0)
-			{
-				throw new ArgumentOutOfRangeException("height", height, "'height' cannot be less than or equal to zero");
-			}
-
-			int mByteWidth = width * 4; // Assume 4 bytes/pixel for now
-			mByteWidth = (mByteWidth + 3) & ~3; // Align to 4 bytes
-
-			CGImage cgImage = CreateRGBImageFromBufferData (mByteWidth, width, height);
-
-			using (UIImage uiImage = UIImage.FromImage(cgImage))
-			{
-				NSData data = imageFormat == 0 ? uiImage.AsJPEG() : uiImage.AsPNG();
-				WriteNSDataToStream(data, stream);
-			}
-		}
-
-		private CGImage CreateRGBImageFromBufferData(int mByteWidth, int mWidth, int mHeight)
-		{
-			CGColorSpace cgColorSpace = CGColorSpace.CreateDeviceRGB();
-			//CGImageAlphaInfo alphaInfo = (CGImageAlphaInfo)((int)CGImageAlphaInfo.PremultipliedLast | (int)CGBitmapFlags.ByteOrderDefault);
-
-			CGBitmapContext bitmap = null;
-			byte[] mData = GetTextureData(0);
-
-			int nrOfColorComponents = 4;
-			int bitsPerColorComponent = 8;
-			CGDataProvider provider = new CGDataProvider (mData, 0, mData.Length);
-			CGImage image = new CGImage (width, height, bitsPerColorComponent, bitsPerColorComponent * nrOfColorComponents, mByteWidth, cgColorSpace, CGBitmapFlags.PremultipliedLast, provider, null, false, CGColorRenderingIntent.Default);
-
-//			try 
-//			{
-//				unsafe 
-//				{
-//					fixed (byte* ptr = mData) 
-//					{
-//						bitmap = new CGBitmapContext ((IntPtr)ptr, mWidth, mHeight, 8, mByteWidth, cgColorSpace, alphaInfo);
-//					}
-//				}
-//			} 
-//			catch 
-//			{
-//			}
-			//CGImage image = bitmap.ToImage ();
-
-			return image;
-		}
-
-		private void WriteNSDataToStream(NSData data, Stream outStream)
-		{
-			// Ideally we would just call data.AsStream() to get the stream of graphics data, however that throws the exception...
-			// Wrapper for NSMutableData is not supported, call new UnmanagedMemoryStream ((Byte*) mutableData.Bytes, mutableData.Length) instead
-			unsafe 
-			{
-				using (UnmanagedMemoryStream imageStream = new UnmanagedMemoryStream((byte*)data.Bytes, (long)data.Length))
-				{
-					imageStream.CopyTo(outStream);
-				}
-			}
-		}
-
-#elif ANDROID
-		private void SaveAsImage(Stream stream, int width, int height, Bitmap.CompressFormat format)
-		{
-			if (stream == null)
-			{
-				throw new ArgumentNullException("stream", "'stream' cannot be null (Nothing in Visual Basic)");
-			}
-			if (width <= 0)
-			{
-				throw new ArgumentOutOfRangeException("width", width, "'width' cannot be less than or equal to zero");
-			}
-			if (height <= 0)
-			{
-				throw new ArgumentOutOfRangeException("height", height, "'height' cannot be less than or equal to zero");
-			}
-			if (format == null)
-			{
-				throw new ArgumentNullException("format", "'format' cannot be null (Nothing in Visual Basic)");
-			}
-
-			int[] data = new int[width * height];
-			GetData(data);
-
-			// internal structure is BGR while bitmap expects RGB
-			for (int i = 0; i < data.Length; ++i)
-			{
-				uint pixel = (uint)data[i];
-				data[i] = (int)((pixel & 0xFF00FF00) | ((pixel & 0x00FF0000) >> 16) | ((pixel & 0x000000FF) << 16));
-			}
-
-			using (Bitmap bitmap = Bitmap.CreateBitmap(width, height, Bitmap.Config.Argb8888))
-			{
-				bitmap.SetPixels(data, 0, width, 0, 0, width, height);
-				bitmap.Compress(format, 100, stream);
-				bitmap.Recycle();
-			}
-		}
-
-#elif MONOMAC || WINDOWS
+#if DESKTOPGL || MONOMAC
 		private void SaveAsImage(Stream stream, int width, int height, ImageFormat format)
 		{
 			if (stream == null)

@@ -152,8 +152,9 @@ namespace Microsoft.Xna.Framework.Audio
 				return;
 
             ApplyState();
-            controller.PlaySound (this);
-            //Console.WriteLine ("playing: " + sourceId + " : " + soundEffect.Name);
+            AL.SourcePlay(SourceId);
+            ALHelper.CheckError("Failed to play source.");
+
             SoundState = SoundState.Playing;
         }
 
@@ -185,9 +186,6 @@ namespace Microsoft.Xna.Framework.Audio
         {
             if (HasSourceId)
             {
-                //Console.WriteLine ("stop " + sourceId + " : " + soundEffect.Name);
-                
-
                 if (!controller.CheckInitState())
                 {
                     return;
