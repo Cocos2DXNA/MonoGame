@@ -409,7 +409,7 @@ namespace Microsoft.Xna.Framework.Audio
 		}
 
         public void RecycleSource(int sourceId)
-		{
+        {
             if (!CheckInitState())
             {
                 return;
@@ -417,28 +417,19 @@ namespace Microsoft.Xna.Framework.Audio
 
             lock (availableSourcesCollection)
             {
-            inUseSourcesCollection.Remove(sourceId);
-            availableSourcesCollection.Add(sourceId);
-		}
+                inUseSourcesCollection.Remove(sourceId);
+                availableSourcesCollection.Add(sourceId);
             }
-            lock (playingSourcesCollection)
-            {
-                playingSourcesCollection.Add(inst.SourceId);
-            }
-            AL.SourcePlay(inst.SourceId);
+            AL.SourcePlay(sourceId);
             ALHelper.CheckError("Failed to play source.");
-            CheckALError(String.Format("could not play source '{0}'", inst.SourceId));
-		}
+            CheckALError(String.Format("could not play source '{0}'", sourceId));
+        }
 
         internal void PlaySound(int sourceId)
         {
             if (!CheckInitState())
             {
                 return;
-            }
-            lock (playingSourcesCollection)
-            {
-                playingSourcesCollection.Add(sourceId);
             }
             AL.SourcePlay(sourceId);
             ALHelper.CheckError("Failed to play source.");

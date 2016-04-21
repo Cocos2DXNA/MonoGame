@@ -169,7 +169,7 @@
  
     <!-- Microsoft.Xna.Framework.Net -->
     <Compile Include="..\MonoGame.Framework\Net\AvailableNetworkSessionCollection.cs">
-      <ExcludePlatforms>WindowsPhone,Windows8,WindowsPhone81,WindowsUAP</ExcludePlatforms>
+      <ExcludePlatforms>WindowsPhone,Windows8,WindowsPhone81,WindowsUniversal</ExcludePlatforms>
 	  <Link>Net\AvailableNetworkSessionCollection.cs</Link>
     </Compile>
     <Compile Include="..\MonoGame.Framework\Net\AvailableNetworkSession.cs">
