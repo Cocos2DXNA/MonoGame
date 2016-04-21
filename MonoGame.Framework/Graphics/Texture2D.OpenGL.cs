@@ -519,7 +519,7 @@ namespace Microsoft.Xna.Framework.Graphics
 #if DESKTOPGL || MONOMAC
 			SaveAsImage(stream, width, height, ImageFormat.Jpeg);
 #elif IOS
-			SaveAsImage(stream, width, height, 0);
+            throw new NotImplementedException();
 #elif ANDROID
 			SaveAsImage(stream, width, height, Bitmap.CompressFormat.Jpeg);
 #else
@@ -594,7 +594,7 @@ namespace Microsoft.Xna.Framework.Graphics
 				}
 			}
 		}
-#elif ANDROID
+#elif ANDROID || IOS
         private void SaveAsImage(Stream stream, int width, int height, Bitmap.CompressFormat format)
         {
             int[] data = new int[width * height];
